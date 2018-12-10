@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnBSpace = new System.Windows.Forms.Button();
             this.btnKey9 = new System.Windows.Forms.Button();
             this.btnKey8 = new System.Windows.Forms.Button();
@@ -42,22 +42,23 @@
             this.txtboxBarcode = new System.Windows.Forms.TextBox();
             this.btnNewAdd = new System.Windows.Forms.Button();
             this.storageGridView = new System.Windows.Forms.DataGridView();
-            this.lblItemName = new System.Windows.Forms.Label();
-            this.lblItemBarcode = new System.Windows.Forms.Label();
-            this.lblItemPiece = new System.Windows.Forms.Label();
-            this.lblItemPrice = new System.Windows.Forms.Label();
-            this.lblItemSKT = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.Barkod = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.malcins = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.miktar = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tutar = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SKT = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lblItemName = new System.Windows.Forms.Label();
+            this.lblItemBarcode = new System.Windows.Forms.Label();
+            this.lblItemPiece = new System.Windows.Forms.Label();
+            this.lblItemPrice = new System.Windows.Forms.Label();
+            this.lblItemSKT = new System.Windows.Forms.Label();
+            this.txtboxName = new System.Windows.Forms.TextBox();
+            this.txtboxPiece = new System.Windows.Forms.TextBox();
+            this.txtboxPrice = new System.Windows.Forms.TextBox();
+            this.txtboxSkt = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.btnItemDelete = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.storageGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -167,6 +168,7 @@
             this.txtboxBarcode.Name = "txtboxBarcode";
             this.txtboxBarcode.Size = new System.Drawing.Size(322, 22);
             this.txtboxBarcode.TabIndex = 22;
+            this.txtboxBarcode.Text = "5346361542324";
             // 
             // btnNewAdd
             // 
@@ -176,6 +178,7 @@
             this.btnNewAdd.TabIndex = 21;
             this.btnNewAdd.Text = "EKLE";
             this.btnNewAdd.UseVisualStyleBackColor = true;
+            this.btnNewAdd.Click += new System.EventHandler(this.btnNewAdd_Click);
             // 
             // storageGridView
             // 
@@ -197,6 +200,39 @@
             this.storageGridView.Size = new System.Drawing.Size(545, 334);
             this.storageGridView.TabIndex = 20;
             // 
+            // Barkod
+            // 
+            this.Barkod.HeaderText = "Barkod";
+            this.Barkod.Name = "Barkod";
+            this.Barkod.ReadOnly = true;
+            // 
+            // malcins
+            // 
+            this.malcins.DataPropertyName = "deneme";
+            dataGridViewCellStyle3.NullValue = "asdfdsaf";
+            this.malcins.DefaultCellStyle = dataGridViewCellStyle3;
+            this.malcins.HeaderText = "Malın Cinsi";
+            this.malcins.Name = "malcins";
+            this.malcins.ReadOnly = true;
+            // 
+            // miktar
+            // 
+            this.miktar.HeaderText = "Miktar";
+            this.miktar.Name = "miktar";
+            this.miktar.ReadOnly = true;
+            // 
+            // tutar
+            // 
+            this.tutar.HeaderText = "Tutar";
+            this.tutar.Name = "tutar";
+            this.tutar.ReadOnly = true;
+            // 
+            // SKT
+            // 
+            this.SKT.HeaderText = "SKT";
+            this.SKT.Name = "SKT";
+            this.SKT.ReadOnly = true;
+            // 
             // lblItemName
             // 
             this.lblItemName.AutoSize = true;
@@ -213,9 +249,9 @@
             this.lblItemBarcode.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.lblItemBarcode.Location = new System.Drawing.Point(66, 36);
             this.lblItemBarcode.Name = "lblItemBarcode";
-            this.lblItemBarcode.Size = new System.Drawing.Size(158, 24);
+            this.lblItemBarcode.Size = new System.Drawing.Size(153, 24);
             this.lblItemBarcode.TabIndex = 37;
-            this.lblItemBarcode.Text = "Ürünün Barkodu: ";
+            this.lblItemBarcode.Text = "Ürünün Barkodu:";
             // 
             // lblItemPiece
             // 
@@ -247,33 +283,37 @@
             this.lblItemSKT.TabIndex = 41;
             this.lblItemSKT.Text = "Son Tüketim Tarihi:";
             // 
-            // textBox1
+            // txtboxName
             // 
-            this.textBox1.Location = new System.Drawing.Point(230, 76);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(322, 22);
-            this.textBox1.TabIndex = 42;
+            this.txtboxName.Location = new System.Drawing.Point(230, 76);
+            this.txtboxName.Name = "txtboxName";
+            this.txtboxName.Size = new System.Drawing.Size(322, 22);
+            this.txtboxName.TabIndex = 42;
+            this.txtboxName.Text = "cranch";
             // 
-            // textBox2
+            // txtboxPiece
             // 
-            this.textBox2.Location = new System.Drawing.Point(703, 36);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(97, 22);
-            this.textBox2.TabIndex = 43;
+            this.txtboxPiece.Location = new System.Drawing.Point(703, 36);
+            this.txtboxPiece.Name = "txtboxPiece";
+            this.txtboxPiece.Size = new System.Drawing.Size(97, 22);
+            this.txtboxPiece.TabIndex = 43;
+            this.txtboxPiece.Text = "125";
             // 
-            // textBox3
+            // txtboxPrice
             // 
-            this.textBox3.Location = new System.Drawing.Point(703, 74);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(97, 22);
-            this.textBox3.TabIndex = 44;
+            this.txtboxPrice.Location = new System.Drawing.Point(703, 74);
+            this.txtboxPrice.Name = "txtboxPrice";
+            this.txtboxPrice.Size = new System.Drawing.Size(97, 22);
+            this.txtboxPrice.TabIndex = 44;
+            this.txtboxPrice.Text = "1,25";
             // 
-            // textBox4
+            // txtboxSkt
             // 
-            this.textBox4.Location = new System.Drawing.Point(416, 121);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(322, 22);
-            this.textBox4.TabIndex = 45;
+            this.txtboxSkt.Location = new System.Drawing.Point(416, 121);
+            this.txtboxSkt.Name = "txtboxSkt";
+            this.txtboxSkt.Size = new System.Drawing.Size(322, 22);
+            this.txtboxSkt.TabIndex = 45;
+            this.txtboxSkt.Text = "12-12-2019";
             // 
             // label1
             // 
@@ -293,52 +333,31 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(101, 20);
             this.label2.TabIndex = 47;
-            this.label2.Text = "(Yıl-Ay-Gün)";
+            this.label2.Text = "(Gün-Ay-Yıl)";
             // 
-            // Barkod
+            // btnItemDelete
             // 
-            this.Barkod.HeaderText = "Barkod";
-            this.Barkod.Name = "Barkod";
-            this.Barkod.ReadOnly = true;
-            // 
-            // malcins
-            // 
-            this.malcins.DataPropertyName = "deneme";
-            dataGridViewCellStyle2.NullValue = "asdfdsaf";
-            this.malcins.DefaultCellStyle = dataGridViewCellStyle2;
-            this.malcins.HeaderText = "Malın Cinsi";
-            this.malcins.Name = "malcins";
-            this.malcins.ReadOnly = true;
-            // 
-            // miktar
-            // 
-            this.miktar.HeaderText = "Miktar";
-            this.miktar.Name = "miktar";
-            this.miktar.ReadOnly = true;
-            // 
-            // tutar
-            // 
-            this.tutar.HeaderText = "Tutar";
-            this.tutar.Name = "tutar";
-            this.tutar.ReadOnly = true;
-            // 
-            // SKT
-            // 
-            this.SKT.HeaderText = "SKT";
-            this.SKT.Name = "SKT";
-            this.SKT.ReadOnly = true;
+            this.btnItemDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnItemDelete.Location = new System.Drawing.Point(920, 260);
+            this.btnItemDelete.Name = "btnItemDelete";
+            this.btnItemDelete.Size = new System.Drawing.Size(81, 81);
+            this.btnItemDelete.TabIndex = 48;
+            this.btnItemDelete.Text = "Ürünü Sil";
+            this.btnItemDelete.UseVisualStyleBackColor = true;
+            this.btnItemDelete.Click += new System.EventHandler(this.btnItemDelete_Click);
             // 
             // StorageForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1020, 515);
+            this.Controls.Add(this.btnItemDelete);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtboxSkt);
+            this.Controls.Add(this.txtboxPrice);
+            this.Controls.Add(this.txtboxPiece);
+            this.Controls.Add(this.txtboxName);
             this.Controls.Add(this.lblItemSKT);
             this.Controls.Add(this.lblItemPrice);
             this.Controls.Add(this.lblItemPiece);
@@ -386,10 +405,10 @@
         private System.Windows.Forms.Label lblItemPiece;
         private System.Windows.Forms.Label lblItemPrice;
         private System.Windows.Forms.Label lblItemSKT;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox txtboxName;
+        private System.Windows.Forms.TextBox txtboxPiece;
+        private System.Windows.Forms.TextBox txtboxPrice;
+        private System.Windows.Forms.TextBox txtboxSkt;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Barkod;
@@ -397,5 +416,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn miktar;
         private System.Windows.Forms.DataGridViewTextBoxColumn tutar;
         private System.Windows.Forms.DataGridViewTextBoxColumn SKT;
+        private System.Windows.Forms.Button btnItemDelete;
     }
 }

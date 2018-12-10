@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using Microsoft.VisualBasic;
 
 namespace BossPoss
 {
@@ -33,6 +34,27 @@ namespace BossPoss
                 storageGridView.Rows[i].Cells[3].Value = reader["price"].ToString();
                 storageGridView.Rows[i].Cells[4].Value = reader["skt"].ToString(); 
             }
+            connection.Close();
+        }
+
+        private void btnItemDelete_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void btnNewAdd_Click(object sender, EventArgs e)
+        {
+            connection.Open();
+            string[] sktTimeDivider = txtboxSkt.Text.Split('-');
+            int[] sktInt = new int[3];
+            for(int k = 0; k < 3; k++)
+            {
+                sktInt[k] = Convert.ToInt32(sktTimeDivider[k]);
+            }
+            DateTime currentSkt = new DateTime(sktInt[2],sktInt[1],sktInt[0], 0, 0, 0);
+            SqlCommand cmdAddItemToStorage = new SqlCommand("INSERT INTO Depo (name, price, piece, barcode, skt) Values ('" + txtboxName.Text + "' , '" + txtboxPrice.Text + "' , '" + txtboxPiece.Text + "' , '" + txtboxBarcode.Text + "' , '" + currentSkt +"')", connection);
+            cmdAddItemToStorage.ExecuteNonQuery();
+            connection.Close();
         }
     }
 }
