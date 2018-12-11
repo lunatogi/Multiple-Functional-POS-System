@@ -22,6 +22,11 @@ namespace BossPoss
         SqlConnection connection = new SqlConnection("Data Source=.;Initial Catalog=BossPoss;Integrated Security=True");
         private void StorageForm_Load(object sender, EventArgs e)
         {
+            ListStorage();
+        }
+
+        private void ListStorage()
+        {
             connection.Open();
             SqlCommand cmdTakingData = new SqlCommand("Select *from Depo", connection);
             SqlDataReader reader = cmdTakingData.ExecuteReader();
@@ -32,7 +37,7 @@ namespace BossPoss
                 storageGridView.Rows[i].Cells[1].Value = reader["name"].ToString();
                 storageGridView.Rows[i].Cells[2].Value = reader["piece"].ToString();
                 storageGridView.Rows[i].Cells[3].Value = reader["price"].ToString();
-                storageGridView.Rows[i].Cells[4].Value = reader["skt"].ToString(); 
+                storageGridView.Rows[i].Cells[4].Value = reader["skt"].ToString();
             }
             connection.Close();
         }
@@ -45,16 +50,35 @@ namespace BossPoss
         private void btnNewAdd_Click(object sender, EventArgs e)
         {
             connection.Open();
-            string[] sktTimeDivider = txtboxSkt.Text.Split('-');
-            int[] sktInt = new int[3];
-            for(int k = 0; k < 3; k++)
+            if (txtboxSkt.Text != "" && txtboxSkt.Text != null)
             {
-                sktInt[k] = Convert.ToInt32(sktTimeDivider[k]);
+                string[] sktTimeDivider = txtboxSkt.Text.Split('-');
+                int[] sktInt = new int[3];
+                for (int k = 0; k < 3; k++)
+                {
+                    sktInt[k] = Convert.ToInt32(sktTimeDivider[k]);
+                }
+                MessageBox.Show(sktInt[0] + " " + sktInt[1] + " " + sktInt[2]);
+                //DateTime currentSkt = new DateTime(sktInt[2], sktInt[1], sktInt[0], 0, 0, 0);
+                DateTime currentSkt = new DateTime(DateTime.Now.Year, DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+                MessageBox.Show(currentSkt.ToString());
+                SqlCommand cmdAddItemToStorage = new SqlCommand("INSERT INTO Depo (name, price, piece, barcode, skt) Values ('" + txtboxName.Text + "' , '" + txtboxPrice.Text + "' , '" + txtboxPiece.Text + "' , '" + Convert.ToUInt64(txtboxBarcode.Text) + "' , '" + currentSkt + "')", connection);
+                cmdAddItemToStorage.ExecuteNonQuery();
             }
-            DateTime currentSkt = new DateTime(sktInt[2],sktInt[1],sktInt[0], 0, 0, 0);
-            SqlCommand cmdAddItemToStorage = new SqlCommand("INSERT INTO Depo (name, price, piece, barcode, skt) Values ('" + txtboxName.Text + "' , '" + txtboxPrice.Text + "' , '" + txtboxPiece.Text + "' , '" + txtboxBarcode.Text + "' , '" + currentSkt +"')", connection);
-            cmdAddItemToStorage.ExecuteNonQuery();
+            else
+            {
+                MessageBox.Show("empty");
+                SqlCommand cmdAddItemToStorage = new SqlCommand("INSERT INTO Depo (name, price, piece, barcode) Values ('" + txtboxName.Text + "' , '" + txtboxPrice.Text + "' , '" + txtboxPiece.Text + "' , '" + Convert.ToUInt64(txtboxBarcode.Text) + "')", connection);
+                cmdAddItemToStorage.ExecuteNonQuery();
+            }
             connection.Close();
+            txtboxName.Text = "";
+            txtboxPrice.Text = "";
+            txtboxPiece.Text = "";
+            txtboxBarcode.Text = "";
+            txtboxSkt.Text = "";
+            storageGridView.Rows.Clear();
+            ListStorage();
         }
     }
 }

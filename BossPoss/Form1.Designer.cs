@@ -28,12 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.mainGridView = new System.Windows.Forms.DataGridView();
-            this.malcins = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.miktar = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tutar = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.devTutar = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnAdd = new System.Windows.Forms.Button();
             this.txtboxBarcode = new System.Windows.Forms.TextBox();
             this.btnKey1 = new System.Windows.Forms.Button();
@@ -53,12 +49,17 @@
             this.btnLog = new System.Windows.Forms.Button();
             this.btnBSpace = new System.Windows.Forms.Button();
             this.btnStorage = new System.Windows.Forms.Button();
+            this.malcins = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.miktar = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tutar = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.devTutar = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.mainGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // mainGridView
             // 
             this.mainGridView.AllowUserToAddRows = false;
+            this.mainGridView.AllowUserToDeleteRows = false;
             this.mainGridView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mainGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -74,34 +75,6 @@
             this.mainGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.mainGridView.Size = new System.Drawing.Size(487, 334);
             this.mainGridView.TabIndex = 0;
-            // 
-            // malcins
-            // 
-            this.malcins.DataPropertyName = "deneme";
-            dataGridViewCellStyle5.NullValue = "asdfdsaf";
-            this.malcins.DefaultCellStyle = dataGridViewCellStyle5;
-            this.malcins.HeaderText = "Malın Cinsi";
-            this.malcins.Name = "malcins";
-            this.malcins.ReadOnly = true;
-            // 
-            // miktar
-            // 
-            this.miktar.HeaderText = "Miktar";
-            this.miktar.Name = "miktar";
-            this.miktar.ReadOnly = true;
-            // 
-            // tutar
-            // 
-            this.tutar.HeaderText = "Tutar";
-            this.tutar.Name = "tutar";
-            this.tutar.ReadOnly = true;
-            // 
-            // devTutar
-            // 
-            this.devTutar.HeaderText = "devTutar";
-            this.devTutar.Name = "devTutar";
-            this.devTutar.ReadOnly = true;
-            this.devTutar.Visible = false;
             // 
             // btnAdd
             // 
@@ -305,6 +278,34 @@
             this.btnStorage.UseVisualStyleBackColor = true;
             this.btnStorage.Click += new System.EventHandler(this.btnStorage_Click);
             // 
+            // malcins
+            // 
+            this.malcins.DataPropertyName = "deneme";
+            dataGridViewCellStyle1.NullValue = "asdfdsaf";
+            this.malcins.DefaultCellStyle = dataGridViewCellStyle1;
+            this.malcins.HeaderText = "Malın Cinsi";
+            this.malcins.Name = "malcins";
+            this.malcins.ReadOnly = true;
+            // 
+            // miktar
+            // 
+            this.miktar.HeaderText = "Miktar";
+            this.miktar.Name = "miktar";
+            this.miktar.ReadOnly = true;
+            // 
+            // tutar
+            // 
+            this.tutar.HeaderText = "Tutar";
+            this.tutar.Name = "tutar";
+            this.tutar.ReadOnly = true;
+            // 
+            // devTutar
+            // 
+            this.devTutar.HeaderText = "devTutar";
+            this.devTutar.Name = "devTutar";
+            this.devTutar.ReadOnly = true;
+            this.devTutar.Visible = false;
+            // 
             // FrmSelling
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -358,13 +359,13 @@
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnBuy;
         private System.Windows.Forms.Label lblSum;
+        private System.Windows.Forms.Button btnLog;
+        private System.Windows.Forms.Button btnBSpace;
+        private System.Windows.Forms.Button btnStorage;
         private System.Windows.Forms.DataGridViewTextBoxColumn malcins;
         private System.Windows.Forms.DataGridViewTextBoxColumn miktar;
         private System.Windows.Forms.DataGridViewTextBoxColumn tutar;
         private System.Windows.Forms.DataGridViewTextBoxColumn devTutar;
-        private System.Windows.Forms.Button btnLog;
-        private System.Windows.Forms.Button btnBSpace;
-        private System.Windows.Forms.Button btnStorage;
     }
 }
 

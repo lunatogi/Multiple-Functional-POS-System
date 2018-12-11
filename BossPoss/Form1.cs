@@ -122,7 +122,7 @@ namespace BossPoss
 
         private void Scanned()  //happens when barcode is read
         {
-            String barcode = txtboxBarcode.Text;
+            string barcode = txtboxBarcode.Text;
             connection.Open();
             SqlCommand cmdTakingData = new SqlCommand("Select *from Depo", connection);
 
@@ -136,7 +136,6 @@ namespace BossPoss
                 {
                     if (converter != "" && converter != null)
                         multiplyer = Convert.ToInt32(converter);
-
                     barcode = reader["barcode"].ToString();
                     i = mainGridView.Rows.Add();
 
@@ -150,7 +149,7 @@ namespace BossPoss
             }
             connection.Close();
             connection.Open();
-            SqlCommand cmdUpdate = new SqlCommand("Update Depo set piece='" + leftItemCount + "' where barcode=" + barcode + "", connection);
+            SqlCommand cmdUpdate = new SqlCommand("Update Depo set piece='" + leftItemCount + "' where barcode= " + barcode + "", connection);
             cmdUpdate.ExecuteNonQuery();
             connection.Close();
             multiplyer = 1;
