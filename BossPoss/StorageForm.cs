@@ -56,18 +56,19 @@ namespace BossPoss
                 int[] sktInt = new int[3];
                 for (int k = 0; k < 3; k++)
                 {
-                    sktInt[k] = Convert.ToInt32(sktTimeDivider[k]);
+                    sktInt[k] = Convert.ToInt16(sktTimeDivider[k]);         // 0 --> Day, 1 --> Month,  2 --> Year
                 }
-                MessageBox.Show(sktInt[0] + " " + sktInt[1] + " " + sktInt[2]);
-                //DateTime currentSkt = new DateTime(sktInt[2], sktInt[1], sktInt[0], 0, 0, 0);
-                DateTime currentSkt = new DateTime(DateTime.Now.Year, DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-                MessageBox.Show(currentSkt.ToString());
-                SqlCommand cmdAddItemToStorage = new SqlCommand("INSERT INTO Depo (name, price, piece, barcode, skt) Values ('" + txtboxName.Text + "' , '" + txtboxPrice.Text + "' , '" + txtboxPiece.Text + "' , '" + Convert.ToUInt64(txtboxBarcode.Text) + "' , '" + currentSkt + "')", connection);
+                //MessageBox.Show(sktInt[0] + " " + sktInt[1] + " " + sktInt[2]);
+                DateTime currentSkt = new DateTime(sktInt[2], sktInt[1], sktInt[0]);   //In C# third slot is day but in SQL's datetime it's month... datetime2 is as like as C#
+                //DateTime currentSkt = new DateTime(DateTime.Now.Year, DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+                //MessageBox.Show(currentSkt.ToString());
+                //MessageBox.Show(DateTime.Now.ToString());
+                
+                SqlCommand cmdAddItemToStorage = new SqlCommand("INSERT INTO Depo (name, price, piece, barcode, skt) Values ('" + txtboxName.Text + "' , '" + txtboxPrice.Text + "' , '" + txtboxPiece.Text + "' , '" + Convert.ToUInt64(txtboxBarcode.Text) + "' , '" + currentSkt.ToString("yyyy-MM-dd") + "')", connection);
                 cmdAddItemToStorage.ExecuteNonQuery();
             }
             else
             {
-                MessageBox.Show("empty");
                 SqlCommand cmdAddItemToStorage = new SqlCommand("INSERT INTO Depo (name, price, piece, barcode) Values ('" + txtboxName.Text + "' , '" + txtboxPrice.Text + "' , '" + txtboxPiece.Text + "' , '" + Convert.ToUInt64(txtboxBarcode.Text) + "')", connection);
                 cmdAddItemToStorage.ExecuteNonQuery();
             }

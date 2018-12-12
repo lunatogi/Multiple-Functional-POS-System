@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnBSpace = new System.Windows.Forms.Button();
             this.btnKey9 = new System.Windows.Forms.Button();
             this.btnKey8 = new System.Windows.Forms.Button();
@@ -42,6 +42,11 @@
             this.txtboxBarcode = new System.Windows.Forms.TextBox();
             this.btnNewAdd = new System.Windows.Forms.Button();
             this.storageGridView = new System.Windows.Forms.DataGridView();
+            this.Barkod = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.malcins = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.miktar = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tutar = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SKT = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblItemName = new System.Windows.Forms.Label();
             this.lblItemBarcode = new System.Windows.Forms.Label();
             this.lblItemPiece = new System.Windows.Forms.Label();
@@ -54,11 +59,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btnItemDelete = new System.Windows.Forms.Button();
-            this.Barkod = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.malcins = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.miktar = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tutar = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SKT = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.storageGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -200,6 +200,37 @@
             this.storageGridView.Size = new System.Drawing.Size(545, 334);
             this.storageGridView.TabIndex = 20;
             // 
+            // Barkod
+            // 
+            this.Barkod.HeaderText = "Barkod";
+            this.Barkod.Name = "Barkod";
+            this.Barkod.ReadOnly = true;
+            // 
+            // malcins
+            // 
+            this.malcins.DataPropertyName = "deneme";
+            dataGridViewCellStyle1.NullValue = "asdfdsaf";
+            this.malcins.DefaultCellStyle = dataGridViewCellStyle1;
+            this.malcins.HeaderText = "Malın Cinsi";
+            this.malcins.Name = "malcins";
+            this.malcins.ReadOnly = true;
+            // 
+            // miktar
+            // 
+            this.miktar.HeaderText = "Miktar";
+            this.miktar.Name = "miktar";
+            // 
+            // tutar
+            // 
+            this.tutar.HeaderText = "Tutar";
+            this.tutar.Name = "tutar";
+            // 
+            // SKT
+            // 
+            this.SKT.HeaderText = "SKT";
+            this.SKT.Name = "SKT";
+            this.SKT.ReadOnly = true;
+            // 
             // lblItemName
             // 
             this.lblItemName.AutoSize = true;
@@ -280,7 +311,7 @@
             this.txtboxSkt.Name = "txtboxSkt";
             this.txtboxSkt.Size = new System.Drawing.Size(322, 22);
             this.txtboxSkt.TabIndex = 45;
-            this.txtboxSkt.Text = "15-14-2019";
+            this.txtboxSkt.Text = "15-12-2019";
             // 
             // label1
             // 
@@ -312,37 +343,6 @@
             this.btnItemDelete.Text = "Ürünü Sil";
             this.btnItemDelete.UseVisualStyleBackColor = true;
             this.btnItemDelete.Click += new System.EventHandler(this.btnItemDelete_Click);
-            // 
-            // Barkod
-            // 
-            this.Barkod.HeaderText = "Barkod";
-            this.Barkod.Name = "Barkod";
-            this.Barkod.ReadOnly = true;
-            // 
-            // malcins
-            // 
-            this.malcins.DataPropertyName = "deneme";
-            dataGridViewCellStyle3.NullValue = "asdfdsaf";
-            this.malcins.DefaultCellStyle = dataGridViewCellStyle3;
-            this.malcins.HeaderText = "Malın Cinsi";
-            this.malcins.Name = "malcins";
-            this.malcins.ReadOnly = true;
-            // 
-            // miktar
-            // 
-            this.miktar.HeaderText = "Miktar";
-            this.miktar.Name = "miktar";
-            // 
-            // tutar
-            // 
-            this.tutar.HeaderText = "Tutar";
-            this.tutar.Name = "tutar";
-            // 
-            // SKT
-            // 
-            this.SKT.HeaderText = "SKT";
-            this.SKT.Name = "SKT";
-            this.SKT.ReadOnly = true;
             // 
             // StorageForm
             // 
