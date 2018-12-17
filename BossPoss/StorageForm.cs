@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
-using Microsoft.VisualBasic;
 
 namespace BossPoss
 {
@@ -46,9 +45,10 @@ namespace BossPoss
         {
             
         }
-
+        
         private void btnNewAdd_Click(object sender, EventArgs e)
         {
+            /*      GEREKMEDİKÇE SİLME
             connection.Open();
             if (txtboxSkt.Text != "" && txtboxSkt.Text != null)
             {
@@ -60,10 +60,6 @@ namespace BossPoss
                 }
                 //MessageBox.Show(sktInt[0] + " " + sktInt[1] + " " + sktInt[2]);
                 DateTime currentSkt = new DateTime(sktInt[2], sktInt[1], sktInt[0]);   //In C# third slot is day but in SQL's datetime it's month... datetime2 is as like as C#
-                //DateTime currentSkt = new DateTime(DateTime.Now.Year, DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-                //MessageBox.Show(currentSkt.ToString());
-                //MessageBox.Show(DateTime.Now.ToString());
-                
                 SqlCommand cmdAddItemToStorage = new SqlCommand("INSERT INTO Depo (name, price, piece, barcode, skt) Values ('" + txtboxName.Text + "' , '" + txtboxPrice.Text + "' , '" + txtboxPiece.Text + "' , '" + Convert.ToUInt64(txtboxBarcode.Text) + "' , '" + currentSkt.ToString("yyyy-MM-dd") + "')", connection);
                 cmdAddItemToStorage.ExecuteNonQuery();
             }
@@ -80,6 +76,8 @@ namespace BossPoss
             txtboxSkt.Text = "";
             storageGridView.Rows.Clear();
             ListStorage();
+            */
         }
+
     }
 }

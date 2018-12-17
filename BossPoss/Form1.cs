@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Drawing.Printing;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.IO;
+using Microsoft.PointOfService;
 
 namespace BossPoss
 {
@@ -16,12 +19,13 @@ namespace BossPoss
         
         public FrmSelling()
         {
+            
             InitializeComponent();
         }
         int i = 0;
         private void FrmSelling_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         SqlConnection connection = new SqlConnection("Data Source=.;Initial Catalog=BossPoss;Integrated Security=True");
@@ -129,7 +133,7 @@ namespace BossPoss
             SqlDataReader reader = cmdTakingData.ExecuteReader();
             int executedItemCount = 0;
             int leftItemCount = 0;
-
+            
             while (reader.Read())       
             {
                 if (barcode == reader["barcode"].ToString())
@@ -138,7 +142,7 @@ namespace BossPoss
                         multiplyer = Convert.ToInt32(converter);
                     barcode = reader["barcode"].ToString();
                     i = mainGridView.Rows.Add();
-
+                    MessageBox.Show("Ürün girdi");
                     mainGridView.Rows[i].Cells[0].Value = reader["name"].ToString();
                     mainGridView.Rows[i].Cells[1].Value = (multiplyer).ToString();
                     executedItemCount = 1 * multiplyer;
@@ -160,8 +164,7 @@ namespace BossPoss
             sum += Convert.ToDouble(mainGridView.Rows[mainGridView.RowCount - 1].Cells[3].Value);
             lblSum.Text = "Toplam: " + sum.ToString() + " TL";
         }
-
-
+        
         private void AddToLog()     //After pressing "buy" data will be stored at the database
         {
             connection.Open();
@@ -224,6 +227,18 @@ namespace BossPoss
         {
             StorageForm stForm = new StorageForm();
             stForm.Show();
+        }
+        
+        private void pd_PrintPage(object sender, PrintPageEventArgs ev)
+        {
+            ev.Graphics.DrawString("Made By Murat Utku Keti", new System.Drawing.Font("Times New Roman", 14, System.Drawing.FontStyle.Bold), Brushes.Black, 20, 20);
+        }
+        private void btnSlip_Click(object sender, EventArgs e)
+        {
+            PrintDocument pd = new PrintDocument();
+            pd.DefaultPageSettings.PaperSize = new PaperSize("A6", 413, 517);
+            pd.PrintPage += new PrintPageEventHandler(pd_PrintPage);
+            pd.Print();
         }
     }
 }
