@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.IO;
-using Microsoft.PointOfService;
 
 namespace BossPoss
 {
@@ -28,8 +27,8 @@ namespace BossPoss
             
         }
 
-        SqlConnection connection = new SqlConnection("Data Source=.;Initial Catalog=BossPoss;Integrated Security=True");
-        int multiplyer = 1;
+        SqlConnection connection = new SqlConnection("Data Source=LUNATOGI\\LUNATOGI;Initial Catalog=BossPoss;Integrated Security=True");
+        int multiplyer = 1;                         
         bool boolMultiplayer = false;
         double sum = 0;
 
@@ -149,13 +148,14 @@ namespace BossPoss
                     leftItemCount = (Convert.ToInt32(reader["piece"])) - executedItemCount;
                     mainGridView.Rows[i].Cells[2].Value = (executedItemCount * Convert.ToDouble(reader["price"])).ToString() +" TL";
                     mainGridView.Rows[i].Cells[3].Value = (executedItemCount * Convert.ToDouble(reader["price"])).ToString();
+                    mainGridView.Rows[i].Cells[4].Value = barcode;
                 }
             }
             connection.Close();
-            connection.Open();
-            SqlCommand cmdUpdate = new SqlCommand("Update Depo set piece='" + leftItemCount + "' where barcode= " + barcode + "", connection);
-            cmdUpdate.ExecuteNonQuery();
-            connection.Close();
+            //connection.Open();
+            //SqlCommand cmdUpdate = new SqlCommand("Update Depo set piece='" + leftItemCount + "' where barcode= " + barcode + "", connection);
+            //cmdUpdate.ExecuteNonQuery();
+            //connection.Close();
             multiplyer = 1;
             txtboxBarcode.Text = "";
             lblMultiplayer.Text = "x";
@@ -171,14 +171,33 @@ namespace BossPoss
             string itemName = "";
             double sumPrice = 0;
             int piece = 0;
-            for(int t = 0; t < mainGridView.RowCount; t++)
+            int oldPiece = 0;
+            int newPiece = 0;
+            string barcode = "";
+            for (int t = 0; t < mainGridView.RowCount; t++)
             {
+                barcode = mainGridView.Rows[t].Cells[4].Value.ToString();
                 itemName = mainGridView.Rows[t].Cells[0].Value.ToString();
                 sumPrice = Convert.ToDouble(mainGridView.Rows[t].Cells[3].Value);
                 piece = Convert.ToInt32(mainGridView.Rows[t].Cells[1].Value);       //Because date-time insertation is different in the foreign countries we need to change month and day's places with the code below
-                DateTime currenDateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-                SqlCommand cmdInsert = new SqlCommand("INSERT INTO Log (item, sumPrice, piece, date) Values ('" + itemName + "' , '" + sumPrice.ToString() + "' , '" + piece.ToString() + "' , '" + currenDateTime + "')", connection);
+                DateTime currenDateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+                SqlCommand cmdInsert = new SqlCommand("INSERT INTO Log (item, sumPrice, piece, date) Values ('" + itemName + "' , '" + sumPrice.ToString() + "' , '" + piece.ToString() + "' , '" + currenDateTime.ToString("yyyy-MM-dd") + "')", connection);
                 cmdInsert.ExecuteNonQuery();
+                connection.Close();
+                connection.Open();
+                SqlCommand cmdTakingData = new SqlCommand("Select *from Depo", connection);
+                SqlDataReader reader = cmdTakingData.ExecuteReader();
+                while (reader.Read())
+                {
+                    if (barcode == reader["barcode"].ToString())
+                        oldPiece = Convert.ToInt32(reader["piece"]);
+                }
+                MessageBox.Show(barcode.ToString());
+                newPiece = oldPiece - piece;
+                connection.Close();
+                connection.Open();
+                SqlCommand cmdMinuesPiece = new SqlCommand("Update Depo set piece='" + newPiece.ToString() + "' where barcode= " + Convert.ToUInt64(barcode) + "", connection);
+                cmdMinuesPiece.ExecuteNonQuery();
             }
             connection.Close();
         }

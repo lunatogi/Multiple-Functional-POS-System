@@ -9,3 +9,14 @@ C:\Users\ASUS\source\repos\BossPoss\BossPoss\obj\Debug\BossPoss.csproj.CoreCompi
 C:\Users\ASUS\source\repos\BossPoss\BossPoss\obj\Debug\BossPoss.exe
 C:\Users\ASUS\source\repos\BossPoss\BossPoss\obj\Debug\BossPoss.pdb
 C:\Users\ASUS\source\repos\BossPoss\BossPoss\obj\Debug\BossPoss.StorageForm.resources
+C:\Users\Lunatogi\source\repos\BossPoss\BossPoss\obj\Debug\BossPoss.csprojResolveAssemblyReference.cache
+C:\Users\Lunatogi\source\repos\BossPoss\BossPoss\obj\Debug\BossPoss.FrmSelling.resources
+C:\Users\Lunatogi\source\repos\BossPoss\BossPoss\obj\Debug\BossPoss.Properties.Resources.resources
+C:\Users\Lunatogi\source\repos\BossPoss\BossPoss\obj\Debug\BossPoss.StorageForm.resources
+C:\Users\Lunatogi\source\repos\BossPoss\BossPoss\obj\Debug\BossPoss.csproj.GenerateResource.Cache
+C:\Users\Lunatogi\source\repos\BossPoss\BossPoss\obj\Debug\BossPoss.csproj.CoreCompileInputs.cache
+C:\Users\Lunatogi\source\repos\BossPoss\BossPoss\obj\Debug\BossPoss.exe
+C:\Users\Lunatogi\source\repos\BossPoss\BossPoss\obj\Debug\BossPoss.pdb
+C:\Users\Lunatogi\source\repos\BossPoss\BossPoss\bin\Debug\BossPoss.exe.config
+C:\Users\Lunatogi\source\repos\BossPoss\BossPoss\bin\Debug\BossPoss.exe
+C:\Users\Lunatogi\source\repos\BossPoss\BossPoss\bin\Debug\BossPoss.pdb

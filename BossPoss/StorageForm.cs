@@ -18,7 +18,7 @@ namespace BossPoss
             InitializeComponent();
         }
         int i = 0;  //Using to enter a data to grid
-        SqlConnection connection = new SqlConnection("Data Source=.;Initial Catalog=BossPoss;Integrated Security=True");
+        SqlConnection connection = new SqlConnection("Data Source=LUNATOGI\\LUNATOGI;Initial Catalog=BossPoss;Integrated Security=True");
         private void StorageForm_Load(object sender, EventArgs e)
         {
             ListStorage();
@@ -48,7 +48,6 @@ namespace BossPoss
         
         private void btnNewAdd_Click(object sender, EventArgs e)
         {
-            /*      GEREKMEDİKÇE SİLME
             connection.Open();
             if (txtboxSkt.Text != "" && txtboxSkt.Text != null)
             {
@@ -76,7 +75,6 @@ namespace BossPoss
             txtboxSkt.Text = "";
             storageGridView.Rows.Clear();
             ListStorage();
-            */
         }
 
     }
