@@ -18,19 +18,15 @@ namespace BossPoss
         
         public FrmSelling()
         {
-            
             InitializeComponent();
         }
         int i = 0;
-        private void FrmSelling_Load(object sender, EventArgs e)
-        {
-            
-        }
 
-        SqlConnection connection = new SqlConnection("Data Source=LUNATOGI\\LUNATOGI;Initial Catalog=BossPoss;Integrated Security=True");
+        SqlConnection connection = new SqlConnection("Data Source=.;Initial Catalog=BossPoss;Integrated Security=True");
         int multiplyer = 1;                         
         bool boolMultiplayer = false;
         double sum = 0;
+        bool fire = false;
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
@@ -41,7 +37,7 @@ namespace BossPoss
         private void btnKeyMulti_Click(object sender, EventArgs e)
         {
             boolMultiplayer = true;
-            lblMultiplayer.Visible = true;
+            lblMultiX.Visible = true;
         }
 
         private void btnKey1_Click(object sender, EventArgs e)
@@ -88,13 +84,21 @@ namespace BossPoss
         {
             KeyButtons(9);
         }
+        
+        private void btnKey0_Click(object sender, EventArgs e)
+        {
+            KeyButtons(0);
+        }
 
         private void KeyButtons(int number)
         {
             if (boolMultiplayer)
             {
                 converter += number.ToString();
-                lblMultiplayer.Text = "x" + converter;
+                lblMultiplayer.Text = converter;
+            }else if (fire)
+            {
+                txtboxFire.Text += number.ToString();
             }
             else
             {
@@ -115,11 +119,17 @@ namespace BossPoss
             catch { }
         }
 
-        private void btnBuy_Click(object sender, EventArgs e)
+        private void btnBuy(string vn)
         {
-            AddToLog();
+            AddToLog(vn);
             mainGridView.Rows.Clear();
             lblSum.Text = "Toplam: 0.00";
+            btnFireCancel.Visible = false;
+            txtboxFire.Text = "";
+            txtboxFire.Visible = false;
+            lblFire.Visible = false;
+            lblMultiplayer.Text = "";
+            lblMultiX.Visible = false;
             sum = 0;
         }
 
@@ -158,14 +168,13 @@ namespace BossPoss
             //connection.Close();
             multiplyer = 1;
             txtboxBarcode.Text = "";
-            lblMultiplayer.Text = "x";
-            lblMultiplayer.Visible = false;
+            lblMultiplayer.Text = "";
             converter = "";
             sum += Convert.ToDouble(mainGridView.Rows[mainGridView.RowCount - 1].Cells[3].Value);
             lblSum.Text = "Toplam: " + sum.ToString() + " TL";
         }
         
-        private void AddToLog()     //After pressing "buy" data will be stored at the database
+        private void AddToLog(string vn)     //After pressing "buy" data will be stored at the database
         {
             connection.Open();
             string itemName = "";
@@ -178,11 +187,32 @@ namespace BossPoss
             {
                 barcode = mainGridView.Rows[t].Cells[4].Value.ToString();
                 itemName = mainGridView.Rows[t].Cells[0].Value.ToString();
-                sumPrice = Convert.ToDouble(mainGridView.Rows[t].Cells[3].Value);
-                piece = Convert.ToInt32(mainGridView.Rows[t].Cells[1].Value);       //Because date-time insertation is different in the foreign countries we need to change month and day's places with the code below
-                DateTime currenDateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-                SqlCommand cmdInsert = new SqlCommand("INSERT INTO Log (item, sumPrice, piece, date) Values ('" + itemName + "' , '" + sumPrice.ToString() + "' , '" + piece.ToString() + "' , '" + currenDateTime.ToString("yyyy-MM-dd") + "')", connection);
-                cmdInsert.ExecuteNonQuery();
+                if (!fire)
+                {
+                    sumPrice = Convert.ToDouble(mainGridView.Rows[t].Cells[3].Value);
+                    piece = Convert.ToInt32(mainGridView.Rows[t].Cells[1].Value);       //Because date-time insertation is different in the foreign countries we need to change month and day's places with the code below
+                    DateTime currenDateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+                    SqlCommand cmdInsert = new SqlCommand("INSERT INTO Log (item, sumPrice, piece, date) Values ('" + itemName + "' , '" + sumPrice.ToString() + "' , '" + piece.ToString() + "' , '" + currenDateTime.ToString("yyyy-MM-dd") + "')", connection);
+                    cmdInsert.ExecuteNonQuery();
+                    //connection.Close();
+                    //connection.Open();
+                    SqlCommand cmdVnInsert = new SqlCommand("INSERT INTO Vn (vn, quantity) Values ('" + vn.ToString() + "', '" + sumPrice.ToString() + "')", connection);
+                    cmdVnInsert.ExecuteNonQuery();
+                }
+                else
+                {
+                    try { 
+                        sumPrice = Convert.ToDouble(txtboxFire.Text);
+                    }
+                    catch
+                    {
+                        sumPrice = 0;
+                    }
+                    piece = Convert.ToInt32(mainGridView.Rows[t].Cells[1].Value);       //Because date-time insertation is different in the foreign countries we need to change month and day's places with the code below
+                    DateTime currenDateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+                    SqlCommand cmdInsert = new SqlCommand("INSERT INTO Log (item, sumPrice, piece, date) Values ('" + itemName + "' , '" + "*" + sumPrice.ToString() + "' , '" + piece.ToString() + "' , '" + currenDateTime.ToString("yyyy-MM-dd") + "')", connection);
+                    cmdInsert.ExecuteNonQuery();
+                }
                 connection.Close();
                 connection.Open();
                 SqlCommand cmdTakingData = new SqlCommand("Select *from Depo", connection);
@@ -208,9 +238,13 @@ namespace BossPoss
             {
                 if (boolMultiplayer)
                 {
-                    lblMultiplayer.Text = lblMultiplayer.Text.Remove(lblMultiplayer.Text.Length - 1);
+                    converter = converter.Remove(converter.Length - 1);
+                    lblMultiplayer.Text = converter;
+                }else if (fire)
+                {
+                    txtboxFire.Text = txtboxFire.Text.Remove(txtboxFire.Text.Length - 1);
                 }
-                else
+                else 
                 {
                     txtboxBarcode.Text = txtboxBarcode.Text.Remove(txtboxBarcode.Text.Length - 1);
                 }
@@ -258,6 +292,38 @@ namespace BossPoss
             pd.DefaultPageSettings.PaperSize = new PaperSize("A6", 413, 517);
             pd.PrintPage += new PrintPageEventHandler(pd_PrintPage);
             pd.Print();
+        }
+
+        private void btnWastage_Click(object sender, EventArgs e)
+        {
+            fire = true;
+            txtboxFire.Visible = true;
+            lblFire.Visible = true;
+            btnFireCancel.Visible = true;
+        }
+
+        private void btnFireCancel_Click(object sender, EventArgs e)
+        {
+            fire = false;
+            txtboxFire.Text = "";
+            txtboxFire.Visible = false;
+            lblFire.Visible = false;
+            btnFireCancel.Visible = false;
+        }
+
+        private void FrmSelling_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnVisaBuy_Click(object sender, EventArgs e)
+        {
+            btnBuy("Visa");
+        }
+
+        private void btnNakitBuy_Click(object sender, EventArgs e)
+        {
+            btnBuy("Nakit");
         }
     }
 }
