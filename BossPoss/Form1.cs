@@ -104,7 +104,6 @@ namespace BossPoss
             {
                 txtboxBarcode.Text += number.ToString();
             }
-
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -212,6 +211,8 @@ namespace BossPoss
                     DateTime currenDateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
                     SqlCommand cmdInsert = new SqlCommand("INSERT INTO Log (item, sumPrice, piece, date) Values ('" + itemName + "' , '" + "*" + sumPrice.ToString() + "' , '" + piece.ToString() + "' , '" + currenDateTime.ToString("yyyy-MM-dd") + "')", connection);
                     cmdInsert.ExecuteNonQuery();
+                    SqlCommand cmdVnInsert = new SqlCommand("INSERT INTO Vn (vn, quantity) Values ('" + vn.ToString() + "', '" + sumPrice.ToString() + "')", connection);
+                    cmdVnInsert.ExecuteNonQuery();
                 }
                 connection.Close();
                 connection.Open();
@@ -324,6 +325,24 @@ namespace BossPoss
         private void btnNakitBuy_Click(object sender, EventArgs e)
         {
             btnBuy("Nakit");
+        }
+
+        private void btnDateControl_Click(object sender, EventArgs e)
+        {
+            connection.Open();
+            SqlCommand cmdCheckDate = new SqlCommand("SELECT *from Depo", connection);
+
+            SqlDataReader reader = cmdCheckDate.ExecuteReader();
+
+            while (reader.Read())
+            {
+                DateTime currentTime = DateTime.Today;
+                DateTime itemTime = Convert.ToDateTime(reader["skt"]);
+                TimeSpan timeDifference = itemTime - currentTime;
+                int difference = Convert.ToInt32(timeDifference.Days);
+                MessageBox.Show(difference.ToString());
+                
+            }
         }
     }
 }
