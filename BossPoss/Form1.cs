@@ -331,18 +331,44 @@ namespace BossPoss
         {
             connection.Open();
             SqlCommand cmdCheckDate = new SqlCommand("SELECT *from Depo", connection);
-
             SqlDataReader reader = cmdCheckDate.ExecuteReader();
 
+            int expiredItemCount = 0;
             while (reader.Read())
             {
                 DateTime currentTime = DateTime.Today;
                 DateTime itemTime = Convert.ToDateTime(reader["skt"]);
                 TimeSpan timeDifference = itemTime - currentTime;
                 int difference = Convert.ToInt32(timeDifference.Days);
-                MessageBox.Show(difference.ToString());
-                
+                if (difference <= 365)
+                {
+                   expiredItemCount++;
+                }
             }
+            connection.Close();
+
+            connection.Open();
+            SqlCommand cmdCheckDate2 = new SqlCommand("SELECT *from Depo", connection);
+            SqlDataReader reader2 = cmdCheckDate2.ExecuteReader();
+            MessageBox.Show(expiredItemCount.ToString());
+            string[] expireDangers = new string[expiredItemCount + 1];
+            expireDangers[0] = "Son kullanma tarihi yaklaşan ürünler: ";
+            int i = 1;
+            while (reader2.Read())
+            {
+                DateTime currentTime = DateTime.Today;
+                DateTime itemTime = Convert.ToDateTime(reader2["skt"]);
+                TimeSpan timeDifference = itemTime - currentTime;
+                int difference = Convert.ToInt32(timeDifference.Days);
+                if (difference <= 365)
+                {
+                    expireDangers[i] = "- " + reader2["name"].ToString();
+                    i++;
+                }
+            }
+            connection.Close();
+            string allItems = string.Join(Environment.NewLine, expireDangers);
+            MessageBox.Show(allItems);
         }
     }
 }
