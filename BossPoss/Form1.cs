@@ -25,6 +25,8 @@ namespace BossPoss
         SqlConnection connection = new SqlConnection("Data Source=.;Initial Catalog=BossPoss;Integrated Security=True");
         int multiplyer = 1;                         
         bool boolMultiplayer = false;
+        bool boolDivide = false;
+        double divideVisa = 0;
         double sum = 0;
         bool fire = false;
 
@@ -121,15 +123,15 @@ namespace BossPoss
         private void btnBuy(string vn)
         {
             AddToLog(vn);
+            sum = 0;
+            lblMultiplayer.Text = "";
+            lblMultiX.Visible = false;
             mainGridView.Rows.Clear();
             lblSum.Text = "Toplam: 0.00";
             btnFireCancel.Visible = false;
             txtboxFire.Text = "";
             txtboxFire.Visible = false;
             lblFire.Visible = false;
-            lblMultiplayer.Text = "";
-            lblMultiX.Visible = false;
-            sum = 0;
         }
 
         private void Scanned()  //happens when barcode is read
@@ -195,8 +197,30 @@ namespace BossPoss
                     cmdInsert.ExecuteNonQuery();
                     //connection.Close();
                     //connection.Open();
-                    SqlCommand cmdVnInsert = new SqlCommand("INSERT INTO Vn (vn, quantity) Values ('" + vn.ToString() + "', '" + sumPrice.ToString() + "')", connection);
-                    cmdVnInsert.ExecuteNonQuery();
+                    if (!boolDivide)
+                    {
+                        SqlCommand cmdVnInsert = new SqlCommand("INSERT INTO Vn (vn, quantity) Values ('" + vn.ToString() + "', '" + sumPrice.ToString() + "')", connection);
+                        cmdVnInsert.ExecuteNonQuery();
+                    }
+                    else if (boolDivide)
+                    {
+                        double leftDivide = 0;
+                        divideVisa = Convert.ToDouble(txtboxDivideVisa.Text);
+                        leftDivide = sumPrice - divideVisa;
+                        MessageBox.Show(divideVisa.ToString());
+                        SqlCommand cmdVnInsert = new SqlCommand("INSERT INTO Vn (vn, quantity) Values ('" + vn.ToString() + "', '" + divideVisa.ToString() + "')", connection);
+                        cmdVnInsert.ExecuteNonQuery();
+                        connection.Close();
+                        connection.Open();
+                        MessageBox.Show(leftDivide.ToString());
+                        SqlCommand cmdVnInsert2 = new SqlCommand("INSERT INTO Vn (vn, quantity) Values ('" + "Nakit" + "', '" + leftDivide.ToString() + "')", connection);
+                        cmdVnInsert2.ExecuteNonQuery();
+                        txtboxDivideVisa.Text = "";
+                        txtboxDivideVisa.Visible = false;
+                        lblDivideVisa.Visible = false;
+                        btnDivideEnd.Visible = false;
+                        boolDivide = false;
+                    }
                 }
                 else
                 {
@@ -231,6 +255,7 @@ namespace BossPoss
                 cmdMinuesPiece.ExecuteNonQuery();
             }
             connection.Close();
+            MessageBox.Show(boolDivide.ToString());
         }
 
         private void btnBSpace_Click(object sender, EventArgs e)
@@ -319,11 +344,21 @@ namespace BossPoss
 
         private void btnVisaBuy_Click(object sender, EventArgs e)
         {
+            boolDivide = false;
+            txtboxDivideVisa.Text = "";
+            txtboxDivideVisa.Visible = false;
+            lblDivideVisa.Visible = false;
+            btnDivideEnd.Visible = false;
             btnBuy("Visa");
         }
 
         private void btnNakitBuy_Click(object sender, EventArgs e)
         {
+            boolDivide = false;
+            txtboxDivideVisa.Text = "";
+            txtboxDivideVisa.Visible = false;
+            lblDivideVisa.Visible = false;
+            btnDivideEnd.Visible = false;
             btnBuy("Nakit");
         }
 
@@ -364,11 +399,28 @@ namespace BossPoss
                 {
                     expireDangers[i] = "- " + reader2["name"].ToString();
                     i++;
+                    i++;
+                    i++;
                 }
             }
             connection.Close();
             string allItems = string.Join(Environment.NewLine, expireDangers);
             MessageBox.Show(allItems);
+        }
+
+        private void btnDivideMoney_Click(object sender, EventArgs e)
+        {
+            boolDivide = true;
+            btnDivideEnd.Visible = true;
+            txtboxDivideVisa.Visible = true;
+            lblDivideVisa.Visible = true;
+            MessageBox.Show(boolDivide.ToString());
+        }
+
+        private void btnDivideEnd_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(boolDivide.ToString());
+            btnBuy("Visa");
         }
     }
 }

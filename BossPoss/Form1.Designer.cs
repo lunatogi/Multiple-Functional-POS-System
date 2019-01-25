@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.mainGridView = new System.Windows.Forms.DataGridView();
             this.malcins = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.miktar = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -63,6 +63,10 @@
             this.lblMultiX = new System.Windows.Forms.Label();
             this.btnVisaBuy = new System.Windows.Forms.Button();
             this.btnDateControl = new System.Windows.Forms.Button();
+            this.btnDivideMoney = new System.Windows.Forms.Button();
+            this.txtboxDivideVisa = new System.Windows.Forms.TextBox();
+            this.lblDivideVisa = new System.Windows.Forms.Label();
+            this.btnDivideEnd = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.mainGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -91,8 +95,8 @@
             // malcins
             // 
             this.malcins.DataPropertyName = "deneme";
-            dataGridViewCellStyle1.NullValue = "asdfdsaf";
-            this.malcins.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.NullValue = "asdfdsaf";
+            this.malcins.DefaultCellStyle = dataGridViewCellStyle4;
             this.malcins.HeaderText = "Malın Cinsi";
             this.malcins.Name = "malcins";
             this.malcins.ReadOnly = true;
@@ -298,7 +302,7 @@
             // 
             this.lblSum.AutoSize = true;
             this.lblSum.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.lblSum.Location = new System.Drawing.Point(240, 570);
+            this.lblSum.Location = new System.Drawing.Point(306, 545);
             this.lblSum.Name = "lblSum";
             this.lblSum.Size = new System.Drawing.Size(215, 39);
             this.lblSum.TabIndex = 16;
@@ -307,7 +311,7 @@
             // btnLog
             // 
             this.btnLog.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnLog.Location = new System.Drawing.Point(594, 398);
+            this.btnLog.Location = new System.Drawing.Point(595, 398);
             this.btnLog.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnLog.Name = "btnLog";
             this.btnLog.Size = new System.Drawing.Size(170, 59);
@@ -355,7 +359,7 @@
             // btnWastage
             // 
             this.btnWastage.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnWastage.Location = new System.Drawing.Point(595, 478);
+            this.btnWastage.Location = new System.Drawing.Point(595, 475);
             this.btnWastage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnWastage.Name = "btnWastage";
             this.btnWastage.Size = new System.Drawing.Size(255, 59);
@@ -366,8 +370,8 @@
             // 
             // txtboxFire
             // 
-            this.txtboxFire.Location = new System.Drawing.Point(595, 543);
-            this.txtboxFire.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtboxFire.Location = new System.Drawing.Point(596, 543);
+            this.txtboxFire.Margin = new System.Windows.Forms.Padding(4);
             this.txtboxFire.Multiline = true;
             this.txtboxFire.Name = "txtboxFire";
             this.txtboxFire.Size = new System.Drawing.Size(184, 41);
@@ -444,11 +448,58 @@
             this.btnDateControl.UseVisualStyleBackColor = true;
             this.btnDateControl.Click += new System.EventHandler(this.btnDateControl_Click);
             // 
+            // btnDivideMoney
+            // 
+            this.btnDivideMoney.Location = new System.Drawing.Point(134, 491);
+            this.btnDivideMoney.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnDivideMoney.Name = "btnDivideMoney";
+            this.btnDivideMoney.Size = new System.Drawing.Size(125, 41);
+            this.btnDivideMoney.TabIndex = 29;
+            this.btnDivideMoney.Text = "Parayı Böl";
+            this.btnDivideMoney.UseVisualStyleBackColor = true;
+            this.btnDivideMoney.Click += new System.EventHandler(this.btnDivideMoney_Click);
+            // 
+            // txtboxDivideVisa
+            // 
+            this.txtboxDivideVisa.Location = new System.Drawing.Point(8, 545);
+            this.txtboxDivideVisa.Multiline = true;
+            this.txtboxDivideVisa.Name = "txtboxDivideVisa";
+            this.txtboxDivideVisa.Size = new System.Drawing.Size(125, 40);
+            this.txtboxDivideVisa.TabIndex = 30;
+            this.txtboxDivideVisa.Visible = false;
+            // 
+            // lblDivideVisa
+            // 
+            this.lblDivideVisa.AutoSize = true;
+            this.lblDivideVisa.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.lblDivideVisa.Location = new System.Drawing.Point(139, 543);
+            this.lblDivideVisa.Name = "lblDivideVisa";
+            this.lblDivideVisa.Size = new System.Drawing.Size(133, 39);
+            this.lblDivideVisa.TabIndex = 31;
+            this.lblDivideVisa.Text = "TL Visa";
+            this.lblDivideVisa.Visible = false;
+            // 
+            // btnDivideEnd
+            // 
+            this.btnDivideEnd.Location = new System.Drawing.Point(74, 590);
+            this.btnDivideEnd.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnDivideEnd.Name = "btnDivideEnd";
+            this.btnDivideEnd.Size = new System.Drawing.Size(125, 41);
+            this.btnDivideEnd.TabIndex = 32;
+            this.btnDivideEnd.Text = "Böl";
+            this.btnDivideEnd.UseVisualStyleBackColor = true;
+            this.btnDivideEnd.Visible = false;
+            this.btnDivideEnd.Click += new System.EventHandler(this.btnDivideEnd_Click);
+            // 
             // FrmSelling
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(975, 679);
+            this.Controls.Add(this.btnDivideEnd);
+            this.Controls.Add(this.lblDivideVisa);
+            this.Controls.Add(this.txtboxDivideVisa);
+            this.Controls.Add(this.btnDivideMoney);
             this.Controls.Add(this.btnDateControl);
             this.Controls.Add(this.btnVisaBuy);
             this.Controls.Add(this.lblMultiX);
@@ -524,6 +575,10 @@
         private System.Windows.Forms.Label lblMultiX;
         private System.Windows.Forms.Button btnVisaBuy;
         private System.Windows.Forms.Button btnDateControl;
+        private System.Windows.Forms.Button btnDivideMoney;
+        private System.Windows.Forms.TextBox txtboxDivideVisa;
+        private System.Windows.Forms.Label lblDivideVisa;
+        private System.Windows.Forms.Button btnDivideEnd;
     }
 }
 
