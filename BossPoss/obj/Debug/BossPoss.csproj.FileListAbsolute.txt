@@ -42,3 +42,4 @@ C:\Users\ASUS\source\repos\BossPoss1.1\BossPoss\obj\Debug\BossPoss.csproj.Genera
 C:\Users\ASUS\source\repos\BossPoss1.1\BossPoss\obj\Debug\BossPoss.csproj.CoreCompileInputs.cache
 C:\Users\ASUS\source\repos\BossPoss1.1\BossPoss\obj\Debug\BossPoss.exe
 C:\Users\ASUS\source\repos\BossPoss1.1\BossPoss\obj\Debug\BossPoss.pdb
+C:\Users\ASUS\source\repos\BossPoss1.1\BossPoss\obj\Debug\BossPoss.ReceiptForm.resources

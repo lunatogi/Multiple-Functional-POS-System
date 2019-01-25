@@ -28,6 +28,7 @@ namespace BossPoss
         bool boolDivide = false;
         double divideVisa = 0;
         double sum = 0;
+        int receiptNo = 1;
         bool fire = false;
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -193,7 +194,7 @@ namespace BossPoss
                     sumPrice = Convert.ToDouble(mainGridView.Rows[t].Cells[3].Value);
                     piece = Convert.ToInt32(mainGridView.Rows[t].Cells[1].Value);       //Because date-time insertation is different in the foreign countries we need to change month and day's places with the code below
                     DateTime currenDateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-                    SqlCommand cmdInsert = new SqlCommand("INSERT INTO Log (item, sumPrice, piece, date) Values ('" + itemName + "' , '" + sumPrice.ToString() + "' , '" + piece.ToString() + "' , '" + currenDateTime.ToString("yyyy-MM-dd") + "')", connection);
+                    SqlCommand cmdInsert = new SqlCommand("INSERT INTO Log (item, sumPrice, piece, date, receipt) Values ('" + itemName + "' , '" + sumPrice.ToString() + "' , '" + piece.ToString() + "' , '" + currenDateTime.ToString("yyyy-MM-dd") + "' , '" + receiptNo.ToString() + "')", connection);
                     cmdInsert.ExecuteNonQuery();
                     //connection.Close();
                     //connection.Open();
@@ -233,7 +234,7 @@ namespace BossPoss
                     }
                     piece = Convert.ToInt32(mainGridView.Rows[t].Cells[1].Value);       //Because date-time insertation is different in the foreign countries we need to change month and day's places with the code below
                     DateTime currenDateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-                    SqlCommand cmdInsert = new SqlCommand("INSERT INTO Log (item, sumPrice, piece, date) Values ('" + itemName + "' , '" + "*" + sumPrice.ToString() + "' , '" + piece.ToString() + "' , '" + currenDateTime.ToString("yyyy-MM-dd") + "')", connection);
+                    SqlCommand cmdInsert = new SqlCommand("INSERT INTO Log (item, sumPrice, piece, date, receipt) Values ('" + itemName + "' , '" + "*" + sumPrice.ToString() + "' , '" + piece.ToString() + "' , '" + currenDateTime.ToString("yyyy-MM-dd") + "' , '" + receiptNo.ToString() + "')", connection);
                     cmdInsert.ExecuteNonQuery();
                     SqlCommand cmdVnInsert = new SqlCommand("INSERT INTO Vn (vn, quantity) Values ('" + vn.ToString() + "', '" + sumPrice.ToString() + "')", connection);
                     cmdVnInsert.ExecuteNonQuery();
@@ -344,6 +345,7 @@ namespace BossPoss
 
         private void btnVisaBuy_Click(object sender, EventArgs e)
         {
+            ReceiptNoChecker();
             boolDivide = false;
             txtboxDivideVisa.Text = "";
             txtboxDivideVisa.Visible = false;
@@ -354,6 +356,7 @@ namespace BossPoss
 
         private void btnNakitBuy_Click(object sender, EventArgs e)
         {
+            ReceiptNoChecker();
             boolDivide = false;
             txtboxDivideVisa.Text = "";
             txtboxDivideVisa.Visible = false;
@@ -399,8 +402,6 @@ namespace BossPoss
                 {
                     expireDangers[i] = "- " + reader2["name"].ToString();
                     i++;
-                    i++;
-                    i++;
                 }
             }
             connection.Close();
@@ -419,8 +420,31 @@ namespace BossPoss
 
         private void btnDivideEnd_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(boolDivide.ToString());
+            ReceiptNoChecker();
             btnBuy("Visa");
+        }
+
+        private void ReceiptNoChecker()
+        {
+            connection.Open();
+            SqlCommand cmdCheckDatabse = new SqlCommand("SELECT *from Log", connection);
+            SqlDataReader reader = cmdCheckDatabse.ExecuteReader();
+
+            while (reader.Read())
+            {
+                try
+                {
+                    receiptNo = Convert.ToInt32(reader["receipt"]) + 1;
+                }
+                catch { }
+            }
+            connection.Close();
+        }
+
+        private void btnReceipt_Click(object sender, EventArgs e)
+        {
+            ReceiptForm rcForm = new ReceiptForm();
+            rcForm.Show();
         }
     }
 }

@@ -28,13 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.mainGridView = new System.Windows.Forms.DataGridView();
-            this.malcins = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.miktar = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tutar = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.devTutar = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.devBarcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnAdd = new System.Windows.Forms.Button();
             this.txtboxBarcode = new System.Windows.Forms.TextBox();
             this.btnKey1 = new System.Windows.Forms.Button();
@@ -67,6 +62,18 @@
             this.txtboxDivideVisa = new System.Windows.Forms.TextBox();
             this.lblDivideVisa = new System.Windows.Forms.Label();
             this.btnDivideEnd = new System.Windows.Forms.Button();
+            this.btnCust1 = new System.Windows.Forms.Button();
+            this.btnCust6 = new System.Windows.Forms.Button();
+            this.btnCust5 = new System.Windows.Forms.Button();
+            this.btnCust3 = new System.Windows.Forms.Button();
+            this.btnCust4 = new System.Windows.Forms.Button();
+            this.btnCust2 = new System.Windows.Forms.Button();
+            this.btnReceipt = new System.Windows.Forms.Button();
+            this.malcins = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.miktar = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tutar = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.devTutar = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.devBarcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.mainGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -89,43 +96,8 @@
             this.mainGridView.ReadOnly = true;
             this.mainGridView.RowTemplate.Height = 24;
             this.mainGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.mainGridView.Size = new System.Drawing.Size(509, 334);
+            this.mainGridView.Size = new System.Drawing.Size(577, 334);
             this.mainGridView.TabIndex = 0;
-            // 
-            // malcins
-            // 
-            this.malcins.DataPropertyName = "deneme";
-            dataGridViewCellStyle4.NullValue = "asdfdsaf";
-            this.malcins.DefaultCellStyle = dataGridViewCellStyle4;
-            this.malcins.HeaderText = "Malın Cinsi";
-            this.malcins.Name = "malcins";
-            this.malcins.ReadOnly = true;
-            // 
-            // miktar
-            // 
-            this.miktar.HeaderText = "Miktar";
-            this.miktar.Name = "miktar";
-            this.miktar.ReadOnly = true;
-            // 
-            // tutar
-            // 
-            this.tutar.HeaderText = "Tutar";
-            this.tutar.Name = "tutar";
-            this.tutar.ReadOnly = true;
-            // 
-            // devTutar
-            // 
-            this.devTutar.HeaderText = "devTutar";
-            this.devTutar.Name = "devTutar";
-            this.devTutar.ReadOnly = true;
-            this.devTutar.Visible = false;
-            // 
-            // devBarcode
-            // 
-            this.devBarcode.HeaderText = "devBarcode";
-            this.devBarcode.Name = "devBarcode";
-            this.devBarcode.ReadOnly = true;
-            this.devBarcode.Visible = false;
             // 
             // btnAdd
             // 
@@ -491,11 +463,134 @@
             this.btnDivideEnd.Visible = false;
             this.btnDivideEnd.Click += new System.EventHandler(this.btnDivideEnd_Click);
             // 
+            // btnCust1
+            // 
+            this.btnCust1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnCust1.Location = new System.Drawing.Point(968, 138);
+            this.btnCust1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnCust1.Name = "btnCust1";
+            this.btnCust1.Size = new System.Drawing.Size(119, 81);
+            this.btnCust1.TabIndex = 33;
+            this.btnCust1.Text = "Item1";
+            this.btnCust1.UseVisualStyleBackColor = true;
+            // 
+            // btnCust6
+            // 
+            this.btnCust6.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnCust6.Location = new System.Drawing.Point(1093, 310);
+            this.btnCust6.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnCust6.Name = "btnCust6";
+            this.btnCust6.Size = new System.Drawing.Size(119, 81);
+            this.btnCust6.TabIndex = 34;
+            this.btnCust6.Text = "Item6";
+            this.btnCust6.UseVisualStyleBackColor = true;
+            // 
+            // btnCust5
+            // 
+            this.btnCust5.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnCust5.Location = new System.Drawing.Point(1093, 225);
+            this.btnCust5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnCust5.Name = "btnCust5";
+            this.btnCust5.Size = new System.Drawing.Size(119, 81);
+            this.btnCust5.TabIndex = 35;
+            this.btnCust5.Text = "Item5";
+            this.btnCust5.UseVisualStyleBackColor = true;
+            // 
+            // btnCust3
+            // 
+            this.btnCust3.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnCust3.Location = new System.Drawing.Point(968, 311);
+            this.btnCust3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnCust3.Name = "btnCust3";
+            this.btnCust3.Size = new System.Drawing.Size(119, 81);
+            this.btnCust3.TabIndex = 36;
+            this.btnCust3.Text = "Item3";
+            this.btnCust3.UseVisualStyleBackColor = true;
+            // 
+            // btnCust4
+            // 
+            this.btnCust4.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnCust4.Location = new System.Drawing.Point(1093, 140);
+            this.btnCust4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnCust4.Name = "btnCust4";
+            this.btnCust4.Size = new System.Drawing.Size(119, 81);
+            this.btnCust4.TabIndex = 37;
+            this.btnCust4.Text = "Item4";
+            this.btnCust4.UseVisualStyleBackColor = true;
+            // 
+            // btnCust2
+            // 
+            this.btnCust2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnCust2.Location = new System.Drawing.Point(968, 225);
+            this.btnCust2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnCust2.Name = "btnCust2";
+            this.btnCust2.Size = new System.Drawing.Size(119, 81);
+            this.btnCust2.TabIndex = 38;
+            this.btnCust2.Text = "Item2";
+            this.btnCust2.UseVisualStyleBackColor = true;
+            // 
+            // btnReceipt
+            // 
+            this.btnReceipt.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnReceipt.Location = new System.Drawing.Point(968, 50);
+            this.btnReceipt.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnReceipt.Name = "btnReceipt";
+            this.btnReceipt.Size = new System.Drawing.Size(119, 81);
+            this.btnReceipt.TabIndex = 39;
+            this.btnReceipt.Text = "Geçmiş Fişler";
+            this.btnReceipt.UseVisualStyleBackColor = true;
+            this.btnReceipt.Click += new System.EventHandler(this.btnReceipt_Click);
+            // 
+            // malcins
+            // 
+            this.malcins.DataPropertyName = "deneme";
+            dataGridViewCellStyle1.NullValue = "asdfdsaf";
+            this.malcins.DefaultCellStyle = dataGridViewCellStyle1;
+            this.malcins.HeaderText = "Malın Cinsi";
+            this.malcins.Name = "malcins";
+            this.malcins.ReadOnly = true;
+            this.malcins.Width = 150;
+            // 
+            // miktar
+            // 
+            this.miktar.HeaderText = "Miktar";
+            this.miktar.Name = "miktar";
+            this.miktar.ReadOnly = true;
+            this.miktar.Width = 150;
+            // 
+            // tutar
+            // 
+            this.tutar.HeaderText = "Tutar";
+            this.tutar.Name = "tutar";
+            this.tutar.ReadOnly = true;
+            this.tutar.Width = 150;
+            // 
+            // devTutar
+            // 
+            this.devTutar.HeaderText = "devTutar";
+            this.devTutar.Name = "devTutar";
+            this.devTutar.ReadOnly = true;
+            this.devTutar.Visible = false;
+            // 
+            // devBarcode
+            // 
+            this.devBarcode.HeaderText = "devBarcode";
+            this.devBarcode.Name = "devBarcode";
+            this.devBarcode.ReadOnly = true;
+            this.devBarcode.Visible = false;
+            // 
             // FrmSelling
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(975, 679);
+            this.ClientSize = new System.Drawing.Size(1219, 679);
+            this.Controls.Add(this.btnReceipt);
+            this.Controls.Add(this.btnCust2);
+            this.Controls.Add(this.btnCust4);
+            this.Controls.Add(this.btnCust3);
+            this.Controls.Add(this.btnCust5);
+            this.Controls.Add(this.btnCust6);
+            this.Controls.Add(this.btnCust1);
             this.Controls.Add(this.btnDivideEnd);
             this.Controls.Add(this.lblDivideVisa);
             this.Controls.Add(this.txtboxDivideVisa);
@@ -562,11 +657,6 @@
         private System.Windows.Forms.Button btnBSpace;
         private System.Windows.Forms.Button btnStorage;
         private System.Windows.Forms.Button btnSlip;
-        private System.Windows.Forms.DataGridViewTextBoxColumn malcins;
-        private System.Windows.Forms.DataGridViewTextBoxColumn miktar;
-        private System.Windows.Forms.DataGridViewTextBoxColumn tutar;
-        private System.Windows.Forms.DataGridViewTextBoxColumn devTutar;
-        private System.Windows.Forms.DataGridViewTextBoxColumn devBarcode;
         private System.Windows.Forms.Button btnWastage;
         private System.Windows.Forms.TextBox txtboxFire;
         private System.Windows.Forms.Label lblFire;
@@ -579,6 +669,18 @@
         private System.Windows.Forms.TextBox txtboxDivideVisa;
         private System.Windows.Forms.Label lblDivideVisa;
         private System.Windows.Forms.Button btnDivideEnd;
+        private System.Windows.Forms.Button btnCust1;
+        private System.Windows.Forms.Button btnCust6;
+        private System.Windows.Forms.Button btnCust5;
+        private System.Windows.Forms.Button btnCust3;
+        private System.Windows.Forms.Button btnCust4;
+        private System.Windows.Forms.Button btnCust2;
+        private System.Windows.Forms.Button btnReceipt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn malcins;
+        private System.Windows.Forms.DataGridViewTextBoxColumn miktar;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tutar;
+        private System.Windows.Forms.DataGridViewTextBoxColumn devTutar;
+        private System.Windows.Forms.DataGridViewTextBoxColumn devBarcode;
     }
 }
 
