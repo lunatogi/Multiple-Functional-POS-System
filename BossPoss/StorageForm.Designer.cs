@@ -255,7 +255,7 @@
             // 
             this.lblItemPiece.AutoSize = true;
             this.lblItemPiece.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.lblItemPiece.Location = new System.Drawing.Point(637, 36);
+            this.lblItemPiece.Location = new System.Drawing.Point(643, 34);
             this.lblItemPiece.Name = "lblItemPiece";
             this.lblItemPiece.Size = new System.Drawing.Size(54, 24);
             this.lblItemPiece.TabIndex = 38;
@@ -265,11 +265,11 @@
             // 
             this.lblItemPrice.AutoSize = true;
             this.lblItemPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.lblItemPrice.Location = new System.Drawing.Point(637, 72);
+            this.lblItemPrice.Location = new System.Drawing.Point(595, 72);
             this.lblItemPrice.Name = "lblItemPrice";
-            this.lblItemPrice.Size = new System.Drawing.Size(54, 24);
+            this.lblItemPrice.Size = new System.Drawing.Size(102, 24);
             this.lblItemPrice.TabIndex = 39;
-            this.lblItemPrice.Text = "Fiyat:";
+            this.lblItemPrice.Text = "Adet Fiyatı:";
             // 
             // lblItemSKT
             // 

@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.storageGridView = new System.Windows.Forms.DataGridView();
-            this.btnBack = new System.Windows.Forms.Button();
             this.SKT = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ReceiptNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnBack = new System.Windows.Forms.Button();
             this.ReceiptGridView = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -54,21 +54,12 @@
             this.ReceiptNo});
             this.storageGridView.Location = new System.Drawing.Point(12, 58);
             this.storageGridView.Name = "storageGridView";
+            this.storageGridView.ReadOnly = true;
             this.storageGridView.RowTemplate.Height = 24;
             this.storageGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.storageGridView.Size = new System.Drawing.Size(929, 469);
             this.storageGridView.TabIndex = 21;
             this.storageGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.storageGridView_CellContentClick);
-            // 
-            // btnBack
-            // 
-            this.btnBack.Location = new System.Drawing.Point(12, 2);
-            this.btnBack.Name = "btnBack";
-            this.btnBack.Size = new System.Drawing.Size(115, 50);
-            this.btnBack.TabIndex = 22;
-            this.btnBack.Text = "Geri";
-            this.btnBack.UseVisualStyleBackColor = true;
-            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
             // SKT
             // 
@@ -81,6 +72,17 @@
             // 
             this.ReceiptNo.HeaderText = "Fiş Numarası";
             this.ReceiptNo.Name = "ReceiptNo";
+            this.ReceiptNo.ReadOnly = true;
+            // 
+            // btnBack
+            // 
+            this.btnBack.Location = new System.Drawing.Point(12, 2);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(115, 50);
+            this.btnBack.TabIndex = 22;
+            this.btnBack.Text = "Geri";
+            this.btnBack.UseVisualStyleBackColor = true;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
             // ReceiptGridView
             // 
@@ -97,6 +99,7 @@
             this.Ödeme});
             this.ReceiptGridView.Location = new System.Drawing.Point(12, 58);
             this.ReceiptGridView.Name = "ReceiptGridView";
+            this.ReceiptGridView.ReadOnly = true;
             this.ReceiptGridView.RowTemplate.Height = 24;
             this.ReceiptGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.ReceiptGridView.Size = new System.Drawing.Size(929, 469);
@@ -114,21 +117,25 @@
             // 
             this.dataGridViewTextBoxColumn2.HeaderText = "Fiş Numarası";
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
             // 
             // İsim
             // 
             this.İsim.HeaderText = "Ürün Adı";
             this.İsim.Name = "İsim";
+            this.İsim.ReadOnly = true;
             // 
             // Miktar
             // 
             this.Miktar.HeaderText = "Miktar";
             this.Miktar.Name = "Miktar";
+            this.Miktar.ReadOnly = true;
             // 
             // Ödeme
             // 
             this.Ödeme.HeaderText = "Ödenen Miktar";
             this.Ödeme.Name = "Ödeme";
+            this.Ödeme.ReadOnly = true;
             // 
             // ReceiptForm
             // 

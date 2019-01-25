@@ -33,7 +33,7 @@ namespace BossPoss
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            Scanned();
+            Scanned(null);
         }
 
         string converter = "";      //Kaçla çarpılacağını belirlemek ve aynı zamanda ekrana yazmak için var
@@ -135,9 +135,13 @@ namespace BossPoss
             lblFire.Visible = false;
         }
 
-        private void Scanned()  //happens when barcode is read
+        private void Scanned(string comingBarcode)  //happens when barcode is read
         {
-            string barcode = txtboxBarcode.Text;
+            string barcode = "";
+            if (comingBarcode == null)
+                barcode = txtboxBarcode.Text;
+            else
+                barcode = comingBarcode;
             connection.Open();
             SqlCommand cmdTakingData = new SqlCommand("Select *from Depo", connection);
 
@@ -445,6 +449,16 @@ namespace BossPoss
         {
             ReceiptForm rcForm = new ReceiptForm();
             rcForm.Show();
+        }
+
+        private void btnCust1_Click(object sender, EventArgs e)
+        {
+            Scanned("4739363848686");
+        }
+
+        private void btnCust2_Click(object sender, EventArgs e)
+        {
+            Scanned("8690574105144");
         }
     }
 }

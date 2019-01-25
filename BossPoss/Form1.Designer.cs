@@ -28,8 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.mainGridView = new System.Windows.Forms.DataGridView();
+            this.malcins = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.miktar = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tutar = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.devTutar = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.devBarcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnAdd = new System.Windows.Forms.Button();
             this.txtboxBarcode = new System.Windows.Forms.TextBox();
             this.btnKey1 = new System.Windows.Forms.Button();
@@ -69,11 +74,6 @@
             this.btnCust4 = new System.Windows.Forms.Button();
             this.btnCust2 = new System.Windows.Forms.Button();
             this.btnReceipt = new System.Windows.Forms.Button();
-            this.malcins = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.miktar = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tutar = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.devTutar = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.devBarcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.mainGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -98,6 +98,44 @@
             this.mainGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.mainGridView.Size = new System.Drawing.Size(577, 334);
             this.mainGridView.TabIndex = 0;
+            // 
+            // malcins
+            // 
+            this.malcins.DataPropertyName = "deneme";
+            dataGridViewCellStyle4.NullValue = "asdfdsaf";
+            this.malcins.DefaultCellStyle = dataGridViewCellStyle4;
+            this.malcins.HeaderText = "Malın Cinsi";
+            this.malcins.Name = "malcins";
+            this.malcins.ReadOnly = true;
+            this.malcins.Width = 150;
+            // 
+            // miktar
+            // 
+            this.miktar.HeaderText = "Miktar";
+            this.miktar.Name = "miktar";
+            this.miktar.ReadOnly = true;
+            this.miktar.Width = 150;
+            // 
+            // tutar
+            // 
+            this.tutar.HeaderText = "Tutar";
+            this.tutar.Name = "tutar";
+            this.tutar.ReadOnly = true;
+            this.tutar.Width = 150;
+            // 
+            // devTutar
+            // 
+            this.devTutar.HeaderText = "devTutar";
+            this.devTutar.Name = "devTutar";
+            this.devTutar.ReadOnly = true;
+            this.devTutar.Visible = false;
+            // 
+            // devBarcode
+            // 
+            this.devBarcode.HeaderText = "devBarcode";
+            this.devBarcode.Name = "devBarcode";
+            this.devBarcode.ReadOnly = true;
+            this.devBarcode.Visible = false;
             // 
             // btnAdd
             // 
@@ -465,14 +503,15 @@
             // 
             // btnCust1
             // 
-            this.btnCust1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnCust1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.btnCust1.Location = new System.Drawing.Point(968, 138);
             this.btnCust1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCust1.Name = "btnCust1";
             this.btnCust1.Size = new System.Drawing.Size(119, 81);
             this.btnCust1.TabIndex = 33;
-            this.btnCust1.Text = "Item1";
+            this.btnCust1.Text = "Negro";
             this.btnCust1.UseVisualStyleBackColor = true;
+            this.btnCust1.Click += new System.EventHandler(this.btnCust1_Click);
             // 
             // btnCust6
             // 
@@ -520,14 +559,15 @@
             // 
             // btnCust2
             // 
-            this.btnCust2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnCust2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.btnCust2.Location = new System.Drawing.Point(968, 225);
             this.btnCust2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCust2.Name = "btnCust2";
             this.btnCust2.Size = new System.Drawing.Size(119, 81);
             this.btnCust2.TabIndex = 38;
-            this.btnCust2.Text = "Item2";
+            this.btnCust2.Text = "Pepsi Max";
             this.btnCust2.UseVisualStyleBackColor = true;
+            this.btnCust2.Click += new System.EventHandler(this.btnCust2_Click);
             // 
             // btnReceipt
             // 
@@ -540,44 +580,6 @@
             this.btnReceipt.Text = "Geçmiş Fişler";
             this.btnReceipt.UseVisualStyleBackColor = true;
             this.btnReceipt.Click += new System.EventHandler(this.btnReceipt_Click);
-            // 
-            // malcins
-            // 
-            this.malcins.DataPropertyName = "deneme";
-            dataGridViewCellStyle1.NullValue = "asdfdsaf";
-            this.malcins.DefaultCellStyle = dataGridViewCellStyle1;
-            this.malcins.HeaderText = "Malın Cinsi";
-            this.malcins.Name = "malcins";
-            this.malcins.ReadOnly = true;
-            this.malcins.Width = 150;
-            // 
-            // miktar
-            // 
-            this.miktar.HeaderText = "Miktar";
-            this.miktar.Name = "miktar";
-            this.miktar.ReadOnly = true;
-            this.miktar.Width = 150;
-            // 
-            // tutar
-            // 
-            this.tutar.HeaderText = "Tutar";
-            this.tutar.Name = "tutar";
-            this.tutar.ReadOnly = true;
-            this.tutar.Width = 150;
-            // 
-            // devTutar
-            // 
-            this.devTutar.HeaderText = "devTutar";
-            this.devTutar.Name = "devTutar";
-            this.devTutar.ReadOnly = true;
-            this.devTutar.Visible = false;
-            // 
-            // devBarcode
-            // 
-            this.devBarcode.HeaderText = "devBarcode";
-            this.devBarcode.Name = "devBarcode";
-            this.devBarcode.ReadOnly = true;
-            this.devBarcode.Visible = false;
             // 
             // FrmSelling
             // 
