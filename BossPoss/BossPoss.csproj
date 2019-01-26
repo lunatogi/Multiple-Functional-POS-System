@@ -72,6 +72,12 @@
     <Compile Include="StorageForm.Designer.cs">
       <DependentUpon>StorageForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="WaitingReceiptsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WaitingReceiptsForm.Designer.cs">
+      <DependentUpon>WaitingReceiptsForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -89,6 +95,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="StorageForm.resx">
       <DependentUpon>StorageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WaitingReceiptsForm.resx">
+      <DependentUpon>WaitingReceiptsForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

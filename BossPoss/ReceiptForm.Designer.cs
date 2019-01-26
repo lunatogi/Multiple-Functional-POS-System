@@ -38,6 +38,7 @@
             this.İsim = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Miktar = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Ödeme = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Vn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.storageGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ReceiptGridView)).BeginInit();
             this.SuspendLayout();
@@ -52,7 +53,7 @@
             this.storageGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.SKT,
             this.ReceiptNo});
-            this.storageGridView.Location = new System.Drawing.Point(12, 58);
+            this.storageGridView.Location = new System.Drawing.Point(12, 63);
             this.storageGridView.Name = "storageGridView";
             this.storageGridView.ReadOnly = true;
             this.storageGridView.RowTemplate.Height = 24;
@@ -76,9 +77,9 @@
             // 
             // btnBack
             // 
-            this.btnBack.Location = new System.Drawing.Point(12, 2);
+            this.btnBack.Location = new System.Drawing.Point(12, 5);
             this.btnBack.Name = "btnBack";
-            this.btnBack.Size = new System.Drawing.Size(115, 50);
+            this.btnBack.Size = new System.Drawing.Size(140, 50);
             this.btnBack.TabIndex = 22;
             this.btnBack.Text = "Geri";
             this.btnBack.UseVisualStyleBackColor = true;
@@ -96,8 +97,9 @@
             this.dataGridViewTextBoxColumn2,
             this.İsim,
             this.Miktar,
-            this.Ödeme});
-            this.ReceiptGridView.Location = new System.Drawing.Point(12, 58);
+            this.Ödeme,
+            this.Vn});
+            this.ReceiptGridView.Location = new System.Drawing.Point(12, 63);
             this.ReceiptGridView.Name = "ReceiptGridView";
             this.ReceiptGridView.ReadOnly = true;
             this.ReceiptGridView.RowTemplate.Height = 24;
@@ -137,6 +139,12 @@
             this.Ödeme.Name = "Ödeme";
             this.Ödeme.ReadOnly = true;
             // 
+            // Vn
+            // 
+            this.Vn.HeaderText = "Ödeme Türü";
+            this.Vn.Name = "Vn";
+            this.Vn.ReadOnly = true;
+            // 
             // ReceiptForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -166,5 +174,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn İsim;
         private System.Windows.Forms.DataGridViewTextBoxColumn Miktar;
         private System.Windows.Forms.DataGridViewTextBoxColumn Ödeme;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Vn;
     }
 }

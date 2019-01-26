@@ -105,6 +105,7 @@ namespace BossPoss
                     ReceiptGridView.Rows[i].Cells[2].Value = receiptReader["item"].ToString();
                     ReceiptGridView.Rows[i].Cells[3].Value = receiptReader["piece"].ToString();
                     ReceiptGridView.Rows[i].Cells[4].Value = receiptReader["sumPrice"].ToString() + " TL";
+                    ReceiptGridView.Rows[i].Cells[5].Value = receiptReader["vn"].ToString();
                 }
             }
             connection.Close();

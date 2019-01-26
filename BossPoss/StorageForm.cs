@@ -43,7 +43,20 @@ namespace BossPoss
 
         private void btnItemDelete_Click(object sender, EventArgs e)
         {
-            
+            string barcode = "";
+            try
+            {
+                DataGridViewRow gr = storageGridView.CurrentRow;
+                barcode = gr.Cells[0].Value.ToString();
+                storageGridView.Rows.Remove(gr);
+            }
+            catch { }
+            connection.Open();
+            SqlCommand cmdDeleteData = new SqlCommand("Delete From Depo where barcode = '" + barcode + "'", connection);
+            cmdDeleteData.ExecuteNonQuery();
+            connection.Close();
+            storageGridView.Rows.Clear();
+            ListStorage();
         }
         
         private void btnNewAdd_Click(object sender, EventArgs e)
@@ -75,6 +88,40 @@ namespace BossPoss
             txtboxSkt.Text = "";
             storageGridView.Rows.Clear();
             ListStorage();
+        }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if(txtboxSkt.Text != "" && txtboxSkt.Text != null)
+                {
+
+                }
+                else
+                {
+
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Depoda böyle bir ürün bulunmamakta!", "Hata");
+            }
+        }
+
+        private void Update_Piece()
+        {
+
+        }
+
+        private void Update_Price()
+        {
+
+        }
+
+        private void Update_Skt()
+        {
+
         }
     }
 }

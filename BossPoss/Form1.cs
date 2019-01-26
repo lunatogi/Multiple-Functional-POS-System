@@ -121,9 +121,9 @@ namespace BossPoss
             catch { }
         }
 
-        private void btnBuy(string vn)
+        private void btnBuy(string vn, bool divided)
         {
-            AddToLog(vn);
+            AddToLog(vn, divided);
             sum = 0;
             lblMultiplayer.Text = "";
             lblMultiX.Visible = false;
@@ -180,7 +180,7 @@ namespace BossPoss
             lblSum.Text = "Toplam: " + sum.ToString() + " TL";
         }
         
-        private void AddToLog(string vn)     //After pressing "buy" data will be stored at the database
+        private void AddToLog(string vn, bool divided)     //After pressing "buy" data will be stored at the database
         {
             connection.Open();
             string itemName = "";
@@ -189,6 +189,7 @@ namespace BossPoss
             int oldPiece = 0;
             int newPiece = 0;
             string barcode = "";
+            string vnForLog = "";
             for (int t = 0; t < mainGridView.RowCount; t++)
             {
                 barcode = mainGridView.Rows[t].Cells[4].Value.ToString();
@@ -198,7 +199,11 @@ namespace BossPoss
                     sumPrice = Convert.ToDouble(mainGridView.Rows[t].Cells[3].Value);
                     piece = Convert.ToInt32(mainGridView.Rows[t].Cells[1].Value);       //Because date-time insertation is different in the foreign countries we need to change month and day's places with the code below
                     DateTime currenDateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-                    SqlCommand cmdInsert = new SqlCommand("INSERT INTO Log (item, sumPrice, piece, date, receipt) Values ('" + itemName + "' , '" + sumPrice.ToString() + "' , '" + piece.ToString() + "' , '" + currenDateTime.ToString("yyyy-MM-dd") + "' , '" + receiptNo.ToString() + "')", connection);
+                    if (!divided)
+                        vnForLog = vn;
+                    else
+                        vnForLog = "Visa-Nakit";
+                    SqlCommand cmdInsert = new SqlCommand("INSERT INTO Log (item, sumPrice, piece, date, receipt, vn) Values ('" + itemName + "' , '" + sumPrice.ToString() + "' , '" + piece.ToString() + "' , '" + currenDateTime.ToString("yyyy-MM-dd") + "' , '" + receiptNo.ToString() + "' , '" + vnForLog + "')", connection);
                     cmdInsert.ExecuteNonQuery();
                     //connection.Close();
                     //connection.Open();
@@ -317,6 +322,7 @@ namespace BossPoss
         {
             ev.Graphics.DrawString("Made By Murat Utku Keti", new System.Drawing.Font("Times New Roman", 14, System.Drawing.FontStyle.Bold), Brushes.Black, 20, 20);
         }
+
         private void btnSlip_Click(object sender, EventArgs e)
         {
             PrintDocument pd = new PrintDocument();
@@ -355,7 +361,7 @@ namespace BossPoss
             txtboxDivideVisa.Visible = false;
             lblDivideVisa.Visible = false;
             btnDivideEnd.Visible = false;
-            btnBuy("Visa");
+            btnBuy("Visa", false);
         }
 
         private void btnNakitBuy_Click(object sender, EventArgs e)
@@ -366,7 +372,7 @@ namespace BossPoss
             txtboxDivideVisa.Visible = false;
             lblDivideVisa.Visible = false;
             btnDivideEnd.Visible = false;
-            btnBuy("Nakit");
+            btnBuy("Nakit", false);
         }
 
         private void btnDateControl_Click(object sender, EventArgs e)
@@ -425,7 +431,7 @@ namespace BossPoss
         private void btnDivideEnd_Click(object sender, EventArgs e)
         {
             ReceiptNoChecker();
-            btnBuy("Visa");
+            btnBuy("Visa", true);
         }
 
         private void ReceiptNoChecker()
@@ -433,12 +439,14 @@ namespace BossPoss
             connection.Open();
             SqlCommand cmdCheckDatabse = new SqlCommand("SELECT *from Log", connection);
             SqlDataReader reader = cmdCheckDatabse.ExecuteReader();
-
+            int receiptNoFromLog = 0;
             while (reader.Read())
             {
                 try
                 {
-                    receiptNo = Convert.ToInt32(reader["receipt"]) + 1;
+                    receiptNoFromLog = Convert.ToInt32(reader["receipt"]) + 1;
+                    if (receiptNoFromLog > receiptNo)
+                        receiptNo = receiptNoFromLog;
                 }
                 catch { }
             }
@@ -459,6 +467,72 @@ namespace BossPoss
         private void btnCust2_Click(object sender, EventArgs e)
         {
             Scanned("8690574105144");
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnWaitReceipt_Click(object sender, EventArgs e)
+        {
+            int rowCounter = mainGridView.Rows.Count;
+            string[] datas = new string[6];
+            connection.Open();
+            for (int i = 0; i < rowCounter; i++)
+            {
+                datas[0] = mainGridView.Rows[i].Cells[0].Value.ToString();
+                datas[1] = mainGridView.Rows[i].Cells[1].Value.ToString();
+                datas[2] = mainGridView.Rows[i].Cells[2].Value.ToString();
+                datas[3] = mainGridView.Rows[i].Cells[3].Value.ToString();
+                datas[4] = mainGridView.Rows[i].Cells[4].Value.ToString();
+                if (lblReceiptNote.Text == "" || lblReceiptNote == null)
+                    datas[5] = "Yok";
+                else
+                    datas[5] = txtboxReceiptNote.Text;
+                SqlCommand cmdWaitReceipt = new SqlCommand("INSERT INTO WaitingReceipt (name, piece, sumPrice, devSumPrice, devBarcode, note) Values ('" + datas[0] + "' , '" + datas[1] + "' ,'" + datas[2] + "' ,'" + datas[3] + "' ,'" + datas[4] + "' , '" + datas[5] + "')", connection);
+                cmdWaitReceipt.ExecuteNonQuery();
+            }
+            mainGridView.Rows.Clear();
+            txtboxReceiptNote.Text = "";
+            lblSum.Text = "Toplam: 0.00";
+            sum = 0;
+            connection.Close();
+            
+        }
+
+        private void btnWaitingReceipts_Click(object sender, EventArgs e)
+        {
+            WaitingReceiptsForm wrForm = new WaitingReceiptsForm();
+            wrForm.Show();
+        }
+
+        public void GetReceiptFromWaiting(string note)
+        {
+            mainGridView.Rows.Clear();
+            connection.Open();
+            SqlCommand cmdRecoverReceipt = new SqlCommand("SELECT *from WaitingReceipt", connection);
+            SqlDataReader reader = cmdRecoverReceipt.ExecuteReader();
+            while (reader.Read())
+            {
+                if (reader["note"].ToString() == note)
+                {
+                    int z = mainGridView.Rows.Add();
+                    mainGridView.Rows[z].Cells[0].Value = reader["name"].ToString();
+                    mainGridView.Rows[z].Cells[1].Value = reader["piece"].ToString();
+                    mainGridView.Rows[z].Cells[2].Value = reader["sumPrice"].ToString();
+                    mainGridView.Rows[z].Cells[3].Value = reader["devSumPrice"].ToString();
+                    mainGridView.Rows[z].Cells[4].Value = reader["devBarcode"].ToString();
+                }
+            }
+            connection.Close();
+            double recoverSum = 0;
+            for(int l = 0; l < mainGridView.RowCount; l++)
+            {
+                recoverSum += Convert.ToDouble(mainGridView.Rows[l].Cells[3].Value);
+            }
+            sum = recoverSum;
+            lblSum.Text = "Toplam: " + recoverSum;
         }
     }
 }

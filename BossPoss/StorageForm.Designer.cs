@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnBSpace = new System.Windows.Forms.Button();
             this.btnKey9 = new System.Windows.Forms.Button();
             this.btnKey8 = new System.Windows.Forms.Button();
@@ -59,6 +59,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btnItemDelete = new System.Windows.Forms.Button();
+            this.btnUpdate = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.storageGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -172,9 +173,9 @@
             // 
             // btnNewAdd
             // 
-            this.btnNewAdd.Location = new System.Drawing.Point(850, 35);
+            this.btnNewAdd.Location = new System.Drawing.Point(850, 12);
             this.btnNewAdd.Name = "btnNewAdd";
-            this.btnNewAdd.Size = new System.Drawing.Size(141, 91);
+            this.btnNewAdd.Size = new System.Drawing.Size(141, 73);
             this.btnNewAdd.TabIndex = 21;
             this.btnNewAdd.Text = "EKLE";
             this.btnNewAdd.UseVisualStyleBackColor = true;
@@ -195,6 +196,7 @@
             this.SKT});
             this.storageGridView.Location = new System.Drawing.Point(58, 169);
             this.storageGridView.Name = "storageGridView";
+            this.storageGridView.ReadOnly = true;
             this.storageGridView.RowTemplate.Height = 24;
             this.storageGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.storageGridView.Size = new System.Drawing.Size(545, 334);
@@ -209,8 +211,8 @@
             // malcins
             // 
             this.malcins.DataPropertyName = "deneme";
-            dataGridViewCellStyle1.NullValue = "asdfdsaf";
-            this.malcins.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.NullValue = "asdfdsaf";
+            this.malcins.DefaultCellStyle = dataGridViewCellStyle2;
             this.malcins.HeaderText = "Malın Cinsi";
             this.malcins.Name = "malcins";
             this.malcins.ReadOnly = true;
@@ -344,11 +346,22 @@
             this.btnItemDelete.UseVisualStyleBackColor = true;
             this.btnItemDelete.Click += new System.EventHandler(this.btnItemDelete_Click);
             // 
+            // btnUpdate
+            // 
+            this.btnUpdate.Location = new System.Drawing.Point(850, 91);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(141, 73);
+            this.btnUpdate.TabIndex = 49;
+            this.btnUpdate.Text = "Düzenle";
+            this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            // 
             // StorageForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1020, 515);
+            this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.btnItemDelete);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -415,5 +428,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn miktar;
         private System.Windows.Forms.DataGridViewTextBoxColumn tutar;
         private System.Windows.Forms.DataGridViewTextBoxColumn SKT;
+        private System.Windows.Forms.Button btnUpdate;
     }
 }
