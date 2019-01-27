@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Net.Mail;
 
 namespace BossPoss
 {
@@ -126,6 +127,78 @@ namespace BossPoss
                 MonthGridView.Rows.Clear();
                 
             }
+        }
+
+        private void btnMail_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Send_Mail();
+                MessageBox.Show("Mail gönderildi.", "Başarılı");
+            }
+            catch
+            {
+                MessageBox.Show("Mail gönderme başarısız. Lütfen internet bağlantısını kontrol edin.", "Başarısız");
+            }
+        }
+        private void Send_Mail()
+        {
+            string[] ciros = new string[6]; // 0 --> dün , 1 --> geçen ay, 2 --> geçen yıl, 3 --> bugün, 4 --> bu ay, 5 --> bu yıl
+
+            connection.Open();
+            SqlCommand cmdTakeCiro = new SqlCommand("Select *from Ciro", connection);
+            SqlDataReader reader = cmdTakeCiro.ExecuteReader();
+            while (reader.Read())
+            {
+                DateTime dt = Convert.ToDateTime(reader["date"]);
+                DateTime currentDt = DateTime.Today;
+                DateTime lastDt = DateTime.Today.AddDays(-1);
+                DateTime lastMt = DateTime.Today.AddMonths(-1);
+                DateTime lastYr = DateTime.Today.AddYears(-1);
+                string type = reader["type"].ToString();
+                if (DateTime.Compare(dt, currentDt) == 0 && type == "d")
+                {
+                    ciros[3] = "Bugünkü ciro: " + reader["topCiro"].ToString() + " TL";
+                }
+                else if (dt.Year == lastDt.Year && dt.Month == lastDt.Month && dt.Day == lastDt.Day && type == "d")
+                {
+                    ciros[0] = "\nDünkü ciro: " + reader["topCiro"].ToString() + " TL";
+                }
+                else if (dt.Year == currentDt.Year && dt.Month == currentDt.Month && type == "m")
+                {
+                    ciros[4] = "\nBu ayki ciro: " + reader["topCiro"].ToString() + " TL";
+                }
+                else if (dt.Year == lastMt.Year && dt.Month == lastMt.Month && type == "m")
+                {
+                    ciros[1] = "\nGeçen ayki ciro: " + reader["topCiro"].ToString() + " TL";
+                }
+                else if (dt.Year == currentDt.Year && type == "y")
+                {
+                    ciros[5] = "\nBu yılki ciro: " + reader["topCiro"].ToString() + " TL";
+                }
+                else if (dt.Year == lastYr.Year && type == "y")
+                {
+                    ciros[2] = "\nGeçen yılki ciro: " + reader["topCiro"].ToString() + " TL";
+                }
+            }
+            connection.Close();
+            MessageBox.Show(ciros[3]);
+            string message = ciros[3] + ciros[0] + ciros[4] + ciros[1] + ciros[5] + ciros[2];
+            MessageBox.Show(message);
+            SmtpClient client = new SmtpClient();
+            client.Port = 587;
+            client.Host = "smtp.gmail.com";
+            client.EnableSsl = true;
+            client.Timeout = 10000;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;                   //bmyusarjaamzwsvk
+            client.Credentials = new System.Net.NetworkCredential("ozu.midnightexpress1@gmail.com", "ozyegin2019midnight");
+
+            MailMessage mm = new MailMessage("ozu.midnightexpress1@gmail.com", "ozu.midnightexpress3@gmail.com", "Midnight Express Ciro", message);
+            mm.BodyEncoding = UTF8Encoding.UTF8;
+            mm.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+
+            client.Send(mm);
         }
     }
 }

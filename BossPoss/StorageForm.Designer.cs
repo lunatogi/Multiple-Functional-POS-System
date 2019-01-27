@@ -66,7 +66,7 @@
             // btnBSpace
             // 
             this.btnBSpace.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnBSpace.Location = new System.Drawing.Point(920, 173);
+            this.btnBSpace.Location = new System.Drawing.Point(1024, 173);
             this.btnBSpace.Name = "btnBSpace";
             this.btnBSpace.Size = new System.Drawing.Size(81, 81);
             this.btnBSpace.TabIndex = 35;
@@ -76,7 +76,7 @@
             // btnKey9
             // 
             this.btnKey9.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnKey9.Location = new System.Drawing.Point(833, 347);
+            this.btnKey9.Location = new System.Drawing.Point(937, 347);
             this.btnKey9.Name = "btnKey9";
             this.btnKey9.Size = new System.Drawing.Size(81, 81);
             this.btnKey9.TabIndex = 31;
@@ -86,7 +86,7 @@
             // btnKey8
             // 
             this.btnKey8.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnKey8.Location = new System.Drawing.Point(746, 347);
+            this.btnKey8.Location = new System.Drawing.Point(850, 347);
             this.btnKey8.Name = "btnKey8";
             this.btnKey8.Size = new System.Drawing.Size(81, 81);
             this.btnKey8.TabIndex = 30;
@@ -96,7 +96,7 @@
             // btnKey7
             // 
             this.btnKey7.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnKey7.Location = new System.Drawing.Point(659, 347);
+            this.btnKey7.Location = new System.Drawing.Point(763, 347);
             this.btnKey7.Name = "btnKey7";
             this.btnKey7.Size = new System.Drawing.Size(81, 81);
             this.btnKey7.TabIndex = 29;
@@ -106,7 +106,7 @@
             // btnKey6
             // 
             this.btnKey6.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnKey6.Location = new System.Drawing.Point(833, 260);
+            this.btnKey6.Location = new System.Drawing.Point(937, 260);
             this.btnKey6.Name = "btnKey6";
             this.btnKey6.Size = new System.Drawing.Size(81, 81);
             this.btnKey6.TabIndex = 28;
@@ -116,7 +116,7 @@
             // btnKey5
             // 
             this.btnKey5.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnKey5.Location = new System.Drawing.Point(746, 260);
+            this.btnKey5.Location = new System.Drawing.Point(850, 260);
             this.btnKey5.Name = "btnKey5";
             this.btnKey5.Size = new System.Drawing.Size(81, 81);
             this.btnKey5.TabIndex = 27;
@@ -126,7 +126,7 @@
             // btnKey4
             // 
             this.btnKey4.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnKey4.Location = new System.Drawing.Point(659, 260);
+            this.btnKey4.Location = new System.Drawing.Point(763, 260);
             this.btnKey4.Name = "btnKey4";
             this.btnKey4.Size = new System.Drawing.Size(81, 81);
             this.btnKey4.TabIndex = 26;
@@ -136,7 +136,7 @@
             // btnKey3
             // 
             this.btnKey3.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnKey3.Location = new System.Drawing.Point(833, 173);
+            this.btnKey3.Location = new System.Drawing.Point(937, 173);
             this.btnKey3.Name = "btnKey3";
             this.btnKey3.Size = new System.Drawing.Size(81, 81);
             this.btnKey3.TabIndex = 25;
@@ -146,7 +146,7 @@
             // btnKey2
             // 
             this.btnKey2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnKey2.Location = new System.Drawing.Point(746, 173);
+            this.btnKey2.Location = new System.Drawing.Point(850, 173);
             this.btnKey2.Name = "btnKey2";
             this.btnKey2.Size = new System.Drawing.Size(81, 81);
             this.btnKey2.TabIndex = 24;
@@ -156,7 +156,7 @@
             // btnKey1
             // 
             this.btnKey1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnKey1.Location = new System.Drawing.Point(659, 173);
+            this.btnKey1.Location = new System.Drawing.Point(763, 173);
             this.btnKey1.Name = "btnKey1";
             this.btnKey1.Size = new System.Drawing.Size(81, 81);
             this.btnKey1.TabIndex = 23;
@@ -194,12 +194,12 @@
             this.miktar,
             this.tutar,
             this.SKT});
-            this.storageGridView.Location = new System.Drawing.Point(58, 169);
+            this.storageGridView.Location = new System.Drawing.Point(12, 169);
             this.storageGridView.Name = "storageGridView";
             this.storageGridView.ReadOnly = true;
             this.storageGridView.RowTemplate.Height = 24;
             this.storageGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.storageGridView.Size = new System.Drawing.Size(545, 334);
+            this.storageGridView.Size = new System.Drawing.Size(743, 334);
             this.storageGridView.TabIndex = 20;
             // 
             // Barkod
@@ -221,11 +221,13 @@
             // 
             this.miktar.HeaderText = "Miktar";
             this.miktar.Name = "miktar";
+            this.miktar.ReadOnly = true;
             // 
             // tutar
             // 
             this.tutar.HeaderText = "Tutar";
             this.tutar.Name = "tutar";
+            this.tutar.ReadOnly = true;
             // 
             // SKT
             // 
@@ -338,7 +340,7 @@
             // btnItemDelete
             // 
             this.btnItemDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnItemDelete.Location = new System.Drawing.Point(920, 260);
+            this.btnItemDelete.Location = new System.Drawing.Point(1024, 260);
             this.btnItemDelete.Name = "btnItemDelete";
             this.btnItemDelete.Size = new System.Drawing.Size(81, 81);
             this.btnItemDelete.TabIndex = 48;
@@ -360,7 +362,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1020, 515);
+            this.ClientSize = new System.Drawing.Size(1129, 515);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.btnItemDelete);
             this.Controls.Add(this.label2);

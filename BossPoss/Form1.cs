@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.IO;
+using ActiveUp.Net.Mail;
+using BossPoss.IMAP;
+
 
 namespace BossPoss
 {
@@ -540,7 +543,10 @@ namespace BossPoss
             Yearly_Ciro();
             CiroForm crForm = new CiroForm();
             crForm.Show();
+            //Send_Mail();
         }
+
+
 
         private void Daily_Ciro()
         {                                           // 0 --> Visa
@@ -698,6 +704,21 @@ namespace BossPoss
             SqlCommand cmdInsertNew2 = new SqlCommand("INSERT INTO Ciro (date, nakit, visa, topCiro, type) Values ('" + lastYear.ToString("yyyy-MM-dd") + "' , '" + ciroYear2[1].ToString() + "' , '" + ciroYear2[0].ToString() + "' , '" + ciroYear2[2].ToString() + "' , 'y')", connection);
             cmdInsertNew2.ExecuteNonQuery();
             connection.Close();
+        }
+
+        private void btnTakeDataViaMail_Click(object sender, EventArgs e)
+        {
+            ReadImap();
+        }
+
+        
+        public void ReadImap()
+        {
+            MailRepository rep = new MailRepository("imap.gmail.com", 993, true, @"ozu.midnightexpress1@gmail.com", "ozyegin2019midnight");
+            foreach (var email in rep.GetUnreadMails("Inbox"))
+            {
+                MessageBox.Show(string.Format("{0}", email.Subject));
+            }
         }
     }
 }

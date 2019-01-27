@@ -96,32 +96,66 @@ namespace BossPoss
             {
                 if(txtboxSkt.Text != "" && txtboxSkt.Text != null)
                 {
-
+                    Update_Skt();
                 }
-                else
+                else if(txtboxPiece.Text != "" && txtboxPiece.Text != null)
                 {
-
+                    Update_Piece();
+                }else if(txtboxPrice.Text != "" && txtboxPrice.Text != null)
+                {
+                    Update_Price();
                 }
             }
             catch
             {
-                MessageBox.Show("Depoda böyle bir ürün bulunmamakta!", "Hata");
+                MessageBox.Show("Depoda böyle bir ürün bulunmamakta veya sayı girilmesi gereken yere yazı girdiniz.", "Hata");
             }
         }
 
         private void Update_Piece()
         {
-
+            string barcode = txtboxBarcode.Text;
+            int oldPiece = 0;
+            int newPiece = 0;
+            connection.Open();
+            SqlCommand cmdTakeOldData = new SqlCommand("Select *from Depo", connection);
+            SqlDataReader reader = cmdTakeOldData.ExecuteReader();
+            while (reader.Read())
+            {
+                oldPiece = Convert.ToInt32(reader["piece"]);
+            }
+            int fromText = Convert.ToInt32(txtboxPiece.Text);
+            newPiece = oldPiece + fromText;
+            connection.Close();
+            connection.Open();
+            SqlCommand cmdUpdateDatabase = new SqlCommand("Update Depo set piece = '" + newPiece.ToString() + "' where barcode = " + barcode + "", connection);
+            cmdUpdateDatabase.ExecuteNonQuery();
+            connection.Close();
+            storageGridView.Rows.Clear();
+            ListStorage();
+            oldPiece = 0;
         }
 
         private void Update_Price()
         {
-
+            string barcode = txtboxBarcode.Text;
+            connection.Open();
+            SqlCommand cmdUpdateDatabase = new SqlCommand("Update Depo set price = '" + txtboxPrice.Text + "' where barcode = " + barcode + "", connection);
+            cmdUpdateDatabase.ExecuteNonQuery();
+            connection.Close();
+            storageGridView.Rows.Clear();
+            ListStorage();
         }
 
         private void Update_Skt()
         {
-
+            string barcode = txtboxBarcode.Text;
+            connection.Open();
+            SqlCommand cmdUpdateDatabase = new SqlCommand("Update Depo set skt = '" + txtboxSkt.Text + "' where barcode = " + barcode + "", connection);
+            cmdUpdateDatabase.ExecuteNonQuery();
+            connection.Close();
+            storageGridView.Rows.Clear();
+            ListStorage();
         }
     }
 }

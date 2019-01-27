@@ -45,3 +45,13 @@ C:\Users\ASUS\source\repos\BossPoss1.1\BossPoss\obj\Debug\BossPoss.pdb
 C:\Users\ASUS\source\repos\BossPoss1.1\BossPoss\obj\Debug\BossPoss.ReceiptForm.resources
 C:\Users\ASUS\source\repos\BossPoss1.1\BossPoss\obj\Debug\BossPoss.WaitingReceiptsForm.resources
 C:\Users\ASUS\source\repos\BossPoss1.1\BossPoss\obj\Debug\BossPoss.CiroForm.resources
+C:\Users\ASUS\source\repos\BossPoss1.1\BossPoss\bin\Debug\ActiveUp.Net.Common.dll
+C:\Users\ASUS\source\repos\BossPoss1.1\BossPoss\bin\Debug\ActiveUp.Net.Dns.dll
+C:\Users\ASUS\source\repos\BossPoss1.1\BossPoss\bin\Debug\ActiveUp.Net.Groupware.dll
+C:\Users\ASUS\source\repos\BossPoss1.1\BossPoss\bin\Debug\ActiveUp.Net.Imap4.dll
+C:\Users\ASUS\source\repos\BossPoss1.1\BossPoss\bin\Debug\ActiveUp.Net.Mail.dll
+C:\Users\ASUS\source\repos\BossPoss1.1\BossPoss\bin\Debug\ActiveUp.Net.Nntp.dll
+C:\Users\ASUS\source\repos\BossPoss1.1\BossPoss\bin\Debug\ActiveUp.Net.OpenPGP.dll
+C:\Users\ASUS\source\repos\BossPoss1.1\BossPoss\bin\Debug\ActiveUp.Net.Pop3.dll
+C:\Users\ASUS\source\repos\BossPoss1.1\BossPoss\bin\Debug\ActiveUp.Net.Smtp.dll
+C:\Users\ASUS\source\repos\BossPoss1.1\BossPoss\bin\Debug\ActiveUp.Net.WhoIs.dll

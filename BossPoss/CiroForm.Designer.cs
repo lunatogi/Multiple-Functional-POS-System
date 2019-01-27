@@ -32,11 +32,11 @@
             this.txtboxReceiptNote = new System.Windows.Forms.TextBox();
             this.btnPassword = new System.Windows.Forms.Button();
             this.YearGridView = new System.Windows.Forms.DataGridView();
-            this.MonthGridView = new System.Windows.Forms.DataGridView();
             this.SKT = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ReceiptNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nakit = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.top = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MonthGridView = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nakitt = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -47,6 +47,7 @@
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnMail = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.YearGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MonthGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DayGridView)).BeginInit();
@@ -103,28 +104,6 @@
             this.YearGridView.TabIndex = 77;
             this.YearGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.YearGridView_CellContentClick);
             // 
-            // MonthGridView
-            // 
-            this.MonthGridView.AllowUserToAddRows = false;
-            this.MonthGridView.AllowUserToDeleteRows = false;
-            this.MonthGridView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.MonthGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.MonthGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
-            this.dataGridViewTextBoxColumn2,
-            this.nakitt,
-            this.topp});
-            this.MonthGridView.Location = new System.Drawing.Point(70, 76);
-            this.MonthGridView.Name = "MonthGridView";
-            this.MonthGridView.ReadOnly = true;
-            this.MonthGridView.RowTemplate.Height = 24;
-            this.MonthGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.MonthGridView.Size = new System.Drawing.Size(929, 469);
-            this.MonthGridView.TabIndex = 78;
-            this.MonthGridView.Visible = false;
-            this.MonthGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MonthGridView_CellContentClick);
-            // 
             // SKT
             // 
             this.SKT.HeaderText = "Tarih (Yıllık)";
@@ -149,6 +128,28 @@
             this.top.HeaderText = "Toplam";
             this.top.Name = "top";
             this.top.ReadOnly = true;
+            // 
+            // MonthGridView
+            // 
+            this.MonthGridView.AllowUserToAddRows = false;
+            this.MonthGridView.AllowUserToDeleteRows = false;
+            this.MonthGridView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.MonthGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.MonthGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1,
+            this.dataGridViewTextBoxColumn2,
+            this.nakitt,
+            this.topp});
+            this.MonthGridView.Location = new System.Drawing.Point(70, 76);
+            this.MonthGridView.Name = "MonthGridView";
+            this.MonthGridView.ReadOnly = true;
+            this.MonthGridView.RowTemplate.Height = 24;
+            this.MonthGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.MonthGridView.Size = new System.Drawing.Size(929, 469);
+            this.MonthGridView.TabIndex = 78;
+            this.MonthGridView.Visible = false;
+            this.MonthGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MonthGridView_CellContentClick);
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -231,11 +232,22 @@
             this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
             this.dataGridViewTextBoxColumn8.ReadOnly = true;
             // 
+            // btnMail
+            // 
+            this.btnMail.Location = new System.Drawing.Point(699, 12);
+            this.btnMail.Name = "btnMail";
+            this.btnMail.Size = new System.Drawing.Size(147, 49);
+            this.btnMail.TabIndex = 82;
+            this.btnMail.Text = "Son Verileri Mail At";
+            this.btnMail.UseVisualStyleBackColor = true;
+            this.btnMail.Click += new System.EventHandler(this.btnMail_Click);
+            // 
             // CiroForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1079, 567);
+            this.Controls.Add(this.btnMail);
             this.Controls.Add(this.DayGridView);
             this.Controls.Add(this.btnBack);
             this.Controls.Add(this.MonthGridView);
@@ -275,5 +287,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
+        private System.Windows.Forms.Button btnMail;
     }
 }

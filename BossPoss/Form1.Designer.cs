@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.mainGridView = new System.Windows.Forms.DataGridView();
             this.malcins = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.miktar = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -101,6 +101,7 @@
             this.lblReceiptNote = new System.Windows.Forms.Label();
             this.btnDivideCancel = new System.Windows.Forms.Button();
             this.btnCiro = new System.Windows.Forms.Button();
+            this.btnTakeDataViaMail = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.mainGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -127,8 +128,8 @@
             // malcins
             // 
             this.malcins.DataPropertyName = "deneme";
-            dataGridViewCellStyle2.NullValue = "asdfdsaf";
-            this.malcins.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.NullValue = "asdfdsaf";
+            this.malcins.DefaultCellStyle = dataGridViewCellStyle1;
             this.malcins.HeaderText = "Malın Cinsi";
             this.malcins.Name = "malcins";
             this.malcins.ReadOnly = true;
@@ -947,11 +948,22 @@
             this.btnCiro.UseVisualStyleBackColor = true;
             this.btnCiro.Click += new System.EventHandler(this.btnCiro_Click);
             // 
+            // btnTakeDataViaMail
+            // 
+            this.btnTakeDataViaMail.Location = new System.Drawing.Point(569, 26);
+            this.btnTakeDataViaMail.Name = "btnTakeDataViaMail";
+            this.btnTakeDataViaMail.Size = new System.Drawing.Size(149, 50);
+            this.btnTakeDataViaMail.TabIndex = 76;
+            this.btnTakeDataViaMail.Text = "Mailden ";
+            this.btnTakeDataViaMail.UseVisualStyleBackColor = true;
+            this.btnTakeDataViaMail.Click += new System.EventHandler(this.btnTakeDataViaMail_Click);
+            // 
             // FrmSelling
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1826, 942);
+            this.Controls.Add(this.btnTakeDataViaMail);
             this.Controls.Add(this.btnCiro);
             this.Controls.Add(this.btnDivideCancel);
             this.Controls.Add(this.lblReceiptNote);
@@ -1103,6 +1115,7 @@
         private System.Windows.Forms.Label lblReceiptNote;
         private System.Windows.Forms.Button btnDivideCancel;
         private System.Windows.Forms.Button btnCiro;
+        private System.Windows.Forms.Button btnTakeDataViaMail;
     }
 }
 
