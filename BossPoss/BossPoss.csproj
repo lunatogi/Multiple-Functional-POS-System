@@ -52,6 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CiroForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CiroForm.Designer.cs">
+      <DependentUpon>CiroForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,6 +84,9 @@
     <Compile Include="WaitingReceiptsForm.Designer.cs">
       <DependentUpon>WaitingReceiptsForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="CiroForm.resx">
+      <DependentUpon>CiroForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

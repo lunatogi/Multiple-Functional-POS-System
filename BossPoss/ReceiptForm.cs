@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Drawing.Printing;
 
 namespace BossPoss
 {
@@ -110,5 +111,52 @@ namespace BossPoss
             }
             connection.Close();
         }
+
+
+        private void pd_PrintPage(object sender, PrintPageEventArgs ev)
+        {
+            if(ReceiptGridView.Visible == false)
+            {
+                MessageBox.Show("Önce bir fişe giriniz", "Uyarı!");
+                return;
+            }
+            else
+            {
+                int rowCount = ReceiptGridView.RowCount;
+                string date = ReceiptGridView.Rows[0].Cells[0].Value.ToString();
+                ev.Graphics.DrawString("Tarih : " + date, new System.Drawing.Font("Times New Roman", 14, System.Drawing.FontStyle.Regular), Brushes.Black, 20, 20);
+                string[] datas = new string[4];
+                for (int i = 0; i < rowCount; i++)
+                {
+                    datas[0] = ReceiptGridView.Rows[i].Cells[2].Value.ToString();   //İsim
+                    datas[1] = ReceiptGridView.Rows[i].Cells[3].Value.ToString();   //Adet
+                    datas[2] = ReceiptGridView.Rows[i].Cells[4].Value.ToString();   //Ödenen Tutar
+                    datas[3] = ReceiptGridView.Rows[i].Cells[5].Value.ToString();   //Ödeme türü
+                    ev.Graphics.DrawString("---------------------------", new System.Drawing.Font("Times New Roman", 14, System.Drawing.FontStyle.Regular), Brushes.Black, 10, 20);
+                    ev.Graphics.DrawString(datas[0], new System.Drawing.Font("Times New Roman", 14, System.Drawing.FontStyle.Regular), Brushes.Black, 10, 20);
+                    ev.Graphics.DrawString("Adet : " + datas[1] + " , " + "Tutar : " + datas[2] + " , " + "Ödeme Türü : " + datas[3], new System.Drawing.Font("Times New Roman", 10, System.Drawing.FontStyle.Regular), Brushes.Black, 10, 20);
+                }
+                ev.Graphics.DrawString("-                         -", new System.Drawing.Font("Times New Roman", 14, System.Drawing.FontStyle.Regular), Brushes.Black, 10, 20);
+                ev.Graphics.DrawString("-                         -", new System.Drawing.Font("Times New Roman", 14, System.Drawing.FontStyle.Regular), Brushes.Black, 10, 20);
+                ev.Graphics.DrawString("-                         -", new System.Drawing.Font("Times New Roman", 14, System.Drawing.FontStyle.Regular), Brushes.Black, 10, 20);
+                ev.Graphics.DrawString("-                         -", new System.Drawing.Font("Times New Roman", 14, System.Drawing.FontStyle.Regular), Brushes.Black, 10, 20);
+            }
+            
+        }
+
+        private void btnSlip_Click(object sender, EventArgs e)
+        {
+            if (ReceiptGridView.Visible == false)
+            {
+                MessageBox.Show("Önce bir fişe giriniz", "Uyarı!");
+                return;
+            }
+            PrintDocument pd = new PrintDocument();
+            pd.DefaultPageSettings.PaperSize = new PaperSize("A6", 413, 517);
+            pd.PrintPage += new PrintPageEventHandler(pd_PrintPage);
+            pd.Print();
+        }
+
+
     }
 }

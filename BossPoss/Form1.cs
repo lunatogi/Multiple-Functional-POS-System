@@ -209,7 +209,7 @@ namespace BossPoss
                     //connection.Open();
                     if (!boolDivide)
                     {
-                        SqlCommand cmdVnInsert = new SqlCommand("INSERT INTO Vn (vn, quantity) Values ('" + vn.ToString() + "', '" + sumPrice.ToString() + "')", connection);
+                        SqlCommand cmdVnInsert = new SqlCommand("INSERT INTO Vn (vn, quantity, date) Values ('" + vn.ToString() + "', '" + sumPrice.ToString() + "' , '" + DateTime.Today.ToString("yyyy-MM-dd") + "')", connection);
                         cmdVnInsert.ExecuteNonQuery();
                     }
                     else if (boolDivide)
@@ -218,12 +218,12 @@ namespace BossPoss
                         divideVisa = Convert.ToDouble(txtboxDivideVisa.Text);
                         leftDivide = sumPrice - divideVisa;
                         MessageBox.Show(divideVisa.ToString());
-                        SqlCommand cmdVnInsert = new SqlCommand("INSERT INTO Vn (vn, quantity) Values ('" + vn.ToString() + "', '" + divideVisa.ToString() + "')", connection);
+                        SqlCommand cmdVnInsert = new SqlCommand("INSERT INTO Vn (vn, quantity, date) Values ('" + vn.ToString() + "', '" + divideVisa.ToString() + "' , '" + DateTime.Today.ToString("yyyy-MM-dd") + "')", connection);
                         cmdVnInsert.ExecuteNonQuery();
                         connection.Close();
                         connection.Open();
                         MessageBox.Show(leftDivide.ToString());
-                        SqlCommand cmdVnInsert2 = new SqlCommand("INSERT INTO Vn (vn, quantity) Values ('" + "Nakit" + "', '" + leftDivide.ToString() + "')", connection);
+                        SqlCommand cmdVnInsert2 = new SqlCommand("INSERT INTO Vn (vn, quantity, date) Values ('" + "Nakit" + "', '" + leftDivide.ToString() + "' , '" + DateTime.Today.ToString("yyyy-MM-dd") + "')", connection);
                         cmdVnInsert2.ExecuteNonQuery();
                         txtboxDivideVisa.Text = "";
                         txtboxDivideVisa.Visible = false;
@@ -245,7 +245,7 @@ namespace BossPoss
                     DateTime currenDateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
                     SqlCommand cmdInsert = new SqlCommand("INSERT INTO Log (item, sumPrice, piece, date, receipt) Values ('" + itemName + "' , '" + "*" + sumPrice.ToString() + "' , '" + piece.ToString() + "' , '" + currenDateTime.ToString("yyyy-MM-dd") + "' , '" + receiptNo.ToString() + "')", connection);
                     cmdInsert.ExecuteNonQuery();
-                    SqlCommand cmdVnInsert = new SqlCommand("INSERT INTO Vn (vn, quantity) Values ('" + vn.ToString() + "', '" + sumPrice.ToString() + "')", connection);
+                    SqlCommand cmdVnInsert = new SqlCommand("INSERT INTO Vn (vn, quantity, date) Values ('" + vn.ToString() + "', '" + sumPrice.ToString() + "' , '" + DateTime.Today.ToString("yyyy-MM-dd") + "')", connection);
                     cmdVnInsert.ExecuteNonQuery();
                 }
                 connection.Close();
@@ -316,19 +316,6 @@ namespace BossPoss
         {
             StorageForm stForm = new StorageForm();
             stForm.Show();
-        }
-        
-        private void pd_PrintPage(object sender, PrintPageEventArgs ev)
-        {
-            ev.Graphics.DrawString("Made By Murat Utku Keti", new System.Drawing.Font("Times New Roman", 14, System.Drawing.FontStyle.Bold), Brushes.Black, 20, 20);
-        }
-
-        private void btnSlip_Click(object sender, EventArgs e)
-        {
-            PrintDocument pd = new PrintDocument();
-            pd.DefaultPageSettings.PaperSize = new PaperSize("A6", 413, 517);
-            pd.PrintPage += new PrintPageEventHandler(pd_PrintPage);
-            pd.Print();
         }
 
         private void btnWastage_Click(object sender, EventArgs e)
@@ -425,6 +412,7 @@ namespace BossPoss
             btnDivideEnd.Visible = true;
             txtboxDivideVisa.Visible = true;
             lblDivideVisa.Visible = true;
+            btnDivideCancel.Visible = true;
             MessageBox.Show(boolDivide.ToString());
         }
 
@@ -533,6 +521,183 @@ namespace BossPoss
             }
             sum = recoverSum;
             lblSum.Text = "Toplam: " + recoverSum;
+        }
+
+        private void btnDivideCancel_Click(object sender, EventArgs e)
+        {
+            boolDivide = false;
+            txtboxDivideVisa.Text = "";
+            txtboxDivideVisa.Visible = false;
+            btnDivideEnd.Visible = false;
+            lblDivideVisa.Visible = false;
+            btnDivideCancel.Visible = false;
+        }
+
+        private void btnCiro_Click(object sender, EventArgs e)
+        {
+            Daily_Ciro();
+            Monthly_Ciro();
+            Yearly_Ciro();
+            CiroForm crForm = new CiroForm();
+            crForm.Show();
+        }
+
+        private void Daily_Ciro()
+        {                                           // 0 --> Visa
+            double[] ciroDay2 = new double[3];      // 1 --> Nakit
+            double[] ciroDay1 = new double[3];      // 2 --> Toplam
+            DateTime lastDay = DateTime.Today.AddDays(-1);
+            connection.Open();
+            SqlCommand cmdTakeFromVn = new SqlCommand("SELECT *from Vn", connection);
+            SqlDataReader reader = cmdTakeFromVn.ExecuteReader();
+            while (reader.Read())
+            {
+                DateTime dataDate = Convert.ToDateTime(reader["date"]);
+                if (DateTime.Compare(dataDate, DateTime.Today) == 0)
+                {
+                    if (reader["vn"].ToString() == "Visa")
+                        ciroDay1[0] += Convert.ToDouble(reader["quantity"]);
+                    else if (reader["vn"].ToString() == "Nakit")
+                        ciroDay1[1] += Convert.ToDouble(reader["quantity"]);
+                }
+                else if (DateTime.Compare(dataDate, lastDay) == 0)
+                {
+                    if (reader["vn"].ToString() == "Visa")
+                        ciroDay2[0] += Convert.ToDouble(reader["quantity"]);
+                    else if (reader["vn"].ToString() == "Nakit")
+                        ciroDay2[1] += Convert.ToDouble(reader["quantity"]);
+                }
+            }
+            connection.Close();
+            connection.Open();
+            SqlCommand cmdTakeFromCiro = new SqlCommand("SELECT *from Ciro", connection);
+            SqlDataReader reader2 = cmdTakeFromCiro.ExecuteReader();
+            while (reader2.Read())
+            {
+                DateTime dataDate2 = Convert.ToDateTime(reader2["date"]);
+                if (DateTime.Compare(dataDate2, DateTime.Today) == 0 && reader2["type"].ToString() == "d")
+                {
+                    ciroDay1[0] += Convert.ToDouble(reader2["visa"]);
+                    ciroDay1[1] += Convert.ToDouble(reader2["nakit"]);
+                }
+                else if (DateTime.Compare(dataDate2, lastDay) == 0 && reader2["type"].ToString() == "d")
+                {
+                    ciroDay2[0] += Convert.ToDouble(reader2["visa"]);
+                    ciroDay2[1] += Convert.ToDouble(reader2["nakit"]);
+                }
+            }
+            connection.Close();
+            ciroDay1[2] = ciroDay1[0] + ciroDay1[1];
+            ciroDay2[2] = ciroDay2[0] + ciroDay2[1];
+            connection.Open();
+            SqlCommand cmdDeleteOldVer = new SqlCommand("Delete From Ciro where date = '" + DateTime.Today.ToString("yyyy-MM-dd") + "' AND type = 'd'", connection);
+            cmdDeleteOldVer.ExecuteNonQuery();
+            connection.Close();
+            connection.Open();
+            SqlCommand cmdDeleteOldVer2 = new SqlCommand("Delete From Ciro where date = '" + lastDay.ToString("yyyy-MM-dd") + "' AND type = 'd'", connection);
+            cmdDeleteOldVer2.ExecuteNonQuery();
+            connection.Close();
+            connection.Open();
+            SqlCommand cmdInsertNew = new SqlCommand("INSERT INTO Ciro (date, nakit, visa, topCiro, type) Values ('" + DateTime.Today.ToString("yyyy-MM-dd") + "' , '" + ciroDay1[1].ToString() + "' , '" + ciroDay1[0].ToString() + "' , '" + ciroDay1[2].ToString() + "' , 'd')", connection);
+            cmdInsertNew.ExecuteNonQuery();
+            connection.Close();
+            connection.Open();
+            SqlCommand cmdInsertNew2 = new SqlCommand("INSERT INTO Ciro (date, nakit, visa, topCiro, type) Values ('" + lastDay.ToString("yyyy-MM-dd") + "' , '" + ciroDay2[1].ToString() + "' , '" + ciroDay2[0].ToString() + "' , '" + ciroDay2[2].ToString() + "' , 'd')", connection);
+            cmdInsertNew2.ExecuteNonQuery();
+            connection.Close();
+            connection.Open();
+            SqlCommand cmdClearVn = new SqlCommand("Delete From Vn", connection);
+            cmdClearVn.ExecuteNonQuery();
+            connection.Close();
+        }
+
+        private void Monthly_Ciro()
+        {                                             // 0 --> Visa
+            double[] ciroMonth2 = new double[3];      // 1 --> Nakit
+            double[] ciroMonth1 = new double[3];      // 2 --> Toplam
+            DateTime lastMonth = DateTime.Today.AddMonths(-1);
+            connection.Open();
+            SqlCommand cmdCheckForMonth = new SqlCommand("SELECT *from Ciro", connection);
+            SqlDataReader reader = cmdCheckForMonth.ExecuteReader();
+            while (reader.Read())
+            {
+                DateTime databaseDate = Convert.ToDateTime(reader["date"]);
+                if(databaseDate.Year == DateTime.Today.Year && databaseDate.Month == DateTime.Today.Month && reader["type"].ToString() == "d")
+                {
+                    ciroMonth1[0] += Convert.ToDouble(reader["visa"]);
+                    ciroMonth1[1] += Convert.ToDouble(reader["nakit"]);
+                }else if(databaseDate.Year == lastMonth.Year && databaseDate.Month == lastMonth.Month && reader["type"].ToString() == "d")
+                {
+                    ciroMonth2[0] += Convert.ToDouble(reader["visa"]);
+                    ciroMonth2[1] += Convert.ToDouble(reader["nakit"]);
+                }
+            }
+            connection.Close();
+            ciroMonth1[2] = ciroMonth1[0] + ciroMonth1[1];
+            ciroMonth2[2] = ciroMonth2[0] + ciroMonth2[1];
+            DateTime interval1 = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+            DateTime interval2 = new DateTime(lastMonth.Year, lastMonth.Month, 1);
+            connection.Open();
+            SqlCommand cmdDeleteOldVer = new SqlCommand("Delete From Ciro where date BETWEEN '" + interval1.ToString("yyyy-MM-dd") + "' AND '" + DateTime.Today.ToString("yyyy-MM-dd") + "'  AND type = 'm'", connection);
+            cmdDeleteOldVer.ExecuteNonQuery();
+            connection.Close();
+            connection.Open();
+            SqlCommand cmdDeleteOldVer2 = new SqlCommand("Delete From Ciro where date BETWEEN '" + interval2.ToString("yyyy-MM-dd") + "' AND '" + lastMonth.ToString("yyyy-MM-dd") + "' AND type = 'm'", connection);
+            cmdDeleteOldVer2.ExecuteNonQuery();
+            connection.Close();
+            connection.Open();
+            SqlCommand cmdInsertNew = new SqlCommand("INSERT INTO Ciro (date, nakit, visa, topCiro, type) Values ('" + DateTime.Today.ToString("yyyy-MM-dd") + "' , '" + ciroMonth1[1].ToString() + "' , '" + ciroMonth1[0].ToString() + "' , '" + ciroMonth1[2].ToString() + "' , 'm')", connection);
+            cmdInsertNew.ExecuteNonQuery();
+            connection.Close();
+            connection.Open();
+            SqlCommand cmdInsertNew2 = new SqlCommand("INSERT INTO Ciro (date, nakit, visa, topCiro, type) Values ('" + lastMonth.ToString("yyyy-MM-dd") + "' , '" + ciroMonth2[1].ToString() + "' , '" + ciroMonth2[0].ToString() + "' , '" + ciroMonth2[2].ToString() + "' , 'm')", connection);
+            cmdInsertNew2.ExecuteNonQuery();
+            connection.Close();
+        }
+
+        private void Yearly_Ciro()
+        {                                            // 0 --> Visa
+            double[] ciroYear2 = new double[3];      // 1 --> Nakit
+            double[] ciroYear1 = new double[3];      // 2 --> Toplam
+            DateTime lastYear = DateTime.Today.AddYears(-1);
+            connection.Open();
+            SqlCommand cmdCheckForYear = new SqlCommand("SELECT *from Ciro", connection);
+            SqlDataReader reader = cmdCheckForYear.ExecuteReader();
+            while (reader.Read())
+            {
+                DateTime databaseDate = Convert.ToDateTime(reader["date"]);
+                if (databaseDate.Year == DateTime.Today.Year && reader["type"].ToString() == "m")
+                {
+                    ciroYear1[0] += Convert.ToDouble(reader["visa"]);
+                    ciroYear1[1] += Convert.ToDouble(reader["nakit"]);
+                }
+                else if (databaseDate.Year == lastYear.Year && reader["type"].ToString() == "m")
+                {
+                    ciroYear2[0] += Convert.ToDouble(reader["visa"]);
+                    ciroYear2[1] += Convert.ToDouble(reader["nakit"]);
+                }
+            }
+            connection.Close();
+            ciroYear1[2] = ciroYear1[0] + ciroYear1[1];
+            ciroYear2[2] = ciroYear2[0] + ciroYear2[1];
+            DateTime interval1 = new DateTime(DateTime.Today.Year, 1, 1);
+            DateTime interval2 = new DateTime(lastYear.Year, 1, 1);
+            connection.Open();
+            SqlCommand cmdDeleteOldVer = new SqlCommand("Delete From Ciro where date BETWEEN '" + interval1.ToString("yyyy-MM-dd") + "' AND '" + DateTime.Today.ToString("yyyy-MM-dd") + "' AND type = 'y'", connection);
+            cmdDeleteOldVer.ExecuteNonQuery();
+            connection.Close();
+            connection.Open();
+            SqlCommand cmdDeleteOldVer2 = new SqlCommand("Delete From Ciro where date BETWEEN '" + interval2.ToString("yyyy-MM-dd") + "' AND '" + lastYear.ToString("yyyy-MM-dd") + "'  AND type = 'y'", connection);
+            cmdDeleteOldVer2.ExecuteNonQuery();
+            connection.Close();
+            connection.Open();
+            SqlCommand cmdInsertNew = new SqlCommand("INSERT INTO Ciro (date, nakit, visa, topCiro, type) Values ('" + DateTime.Today.ToString("yyyy-MM-dd") + "' , '" + ciroYear1[1].ToString() + "' , '" + ciroYear1[0].ToString() + "' , '" + ciroYear1[2].ToString() + "' , 'y')", connection);
+            cmdInsertNew.ExecuteNonQuery();
+            connection.Close();
+            connection.Open();
+            SqlCommand cmdInsertNew2 = new SqlCommand("INSERT INTO Ciro (date, nakit, visa, topCiro, type) Values ('" + lastYear.ToString("yyyy-MM-dd") + "' , '" + ciroYear2[1].ToString() + "' , '" + ciroYear2[0].ToString() + "' , '" + ciroYear2[2].ToString() + "' , 'y')", connection);
+            cmdInsertNew2.ExecuteNonQuery();
+            connection.Close();
         }
     }
 }

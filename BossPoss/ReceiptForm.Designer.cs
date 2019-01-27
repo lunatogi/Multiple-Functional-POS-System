@@ -33,6 +33,7 @@
             this.ReceiptNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnBack = new System.Windows.Forms.Button();
             this.ReceiptGridView = new System.Windows.Forms.DataGridView();
+            this.btnSlip = new System.Windows.Forms.Button();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.İsim = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -108,6 +109,16 @@
             this.ReceiptGridView.TabIndex = 23;
             this.ReceiptGridView.Visible = false;
             // 
+            // btnSlip
+            // 
+            this.btnSlip.Location = new System.Drawing.Point(801, 7);
+            this.btnSlip.Name = "btnSlip";
+            this.btnSlip.Size = new System.Drawing.Size(140, 50);
+            this.btnSlip.TabIndex = 24;
+            this.btnSlip.Text = "Slip Bas";
+            this.btnSlip.UseVisualStyleBackColor = true;
+            this.btnSlip.Click += new System.EventHandler(this.btnSlip_Click);
+            // 
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.HeaderText = "Tarih";
@@ -129,13 +140,13 @@
             // 
             // Miktar
             // 
-            this.Miktar.HeaderText = "Miktar";
+            this.Miktar.HeaderText = "Adet";
             this.Miktar.Name = "Miktar";
             this.Miktar.ReadOnly = true;
             // 
             // Ödeme
             // 
-            this.Ödeme.HeaderText = "Ödenen Miktar";
+            this.Ödeme.HeaderText = "Ödenen Tutar";
             this.Ödeme.Name = "Ödeme";
             this.Ödeme.ReadOnly = true;
             // 
@@ -150,6 +161,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(953, 539);
+            this.Controls.Add(this.btnSlip);
             this.Controls.Add(this.ReceiptGridView);
             this.Controls.Add(this.btnBack);
             this.Controls.Add(this.storageGridView);
@@ -169,6 +181,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ReceiptNo;
         private System.Windows.Forms.Button btnBack;
         private System.Windows.Forms.DataGridView ReceiptGridView;
+        private System.Windows.Forms.Button btnSlip;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn İsim;
