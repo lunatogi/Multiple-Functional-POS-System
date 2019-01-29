@@ -25,7 +25,7 @@ namespace BossPoss
         }
         int i = 0;
 
-        SqlConnection connection = new SqlConnection("Data Source=.;Initial Catalog=BossPoss;Integrated Security=True");
+        SqlConnection connection = new SqlConnection("Data Source=LUNATOGI\\KETO;Initial Catalog=BossPoss;Integrated Security=True");
         int multiplyer = 1;                         
         bool boolMultiplayer = false;
         bool boolDivide = false;
@@ -714,11 +714,78 @@ namespace BossPoss
         
         public void ReadImap()
         {
+            
             MailRepository rep = new MailRepository("imap.gmail.com", 993, true, @"ozu.midnightexpress1@gmail.com", "ozyegin2019midnight");
             foreach (var email in rep.GetUnreadMails("Inbox"))
             {
-                MessageBox.Show(string.Format("{0}", email.Subject));
+                if(email.Subject == "işlem")
+                {
+                    string mesaj = email.BodyText.Text;
+                    //string mesaj = "2648599375938+okey+2+60+10+Nakit+2019-12-15 00:00:00.0000000*4739363848686+negro+1+2+10+Nakit+2019-12-15 00:00:00.0000000*2019-12-15 00:00:00.0000000*Nakit*62";
+                    MessageBox.Show(mesaj);
+                    string[] cell = mesaj.Split('*');               //bu arrayin sonunda tarih, vn ve sumPrice var
+                    MessageBox.Show(cell[0]);
+                    foreach(string cel in cell)
+                    {
+                        int oldData = 0;
+                        int newData = 0;
+                        string[] toDataBase = cel.Split('+');       //barcode-isim-adet-price-receipt-vn-tarih
+                        if (toDataBase.Length > 1)
+                        {
+                            MessageBox.Show(toDataBase[0] + " " + toDataBase[1] + " " + toDataBase[2]);
+                            if (toDataBase.Length > 2)
+                            {
+
+                                connection.Open();
+                                SqlCommand cmdTakeOldData = new SqlCommand("Select *from Depo", connection);
+                                SqlDataReader reader = cmdTakeOldData.ExecuteReader();
+                                while (reader.Read())
+                                {
+                                    if (reader["barcode"].ToString() == toDataBase[0])
+                                    {
+                                        oldData = Convert.ToInt32(reader["piece"]);
+                                    }
+                                }
+                                MessageBox.Show(toDataBase[2]);
+                                connection.Close();
+                                newData = oldData - Convert.ToInt32(toDataBase[2]);
+                                MessageBox.Show("son element : " + toDataBase[0]);
+                                connection.Open();
+                                SqlCommand cmdPutNewData = new SqlCommand("Update Depo set piece = '" + newData.ToString() + "' where barcode = " + toDataBase[0].ToString() + "", connection);
+                                cmdPutNewData.ExecuteNonQuery();
+                                connection.Close();
+                                DateTime innerDate = Convert.ToDateTime(toDataBase[6]);
+                                connection.Open();
+                                SqlCommand cmdInsertLog = new SqlCommand("INSERT INTO Log (item, sumPrice, piece, date, receipt, vn) Values ('" + toDataBase[1].ToLower() + "' , '" + toDataBase[3].ToLower() + "' , '" + toDataBase[2].ToLower() + "' , '" + innerDate.ToString("yyyy-MM-dd") + "' , '" + toDataBase[4].ToString() + "' , '" + toDataBase[5].ToString() + "')", connection);
+                                cmdInsertLog.ExecuteNonQuery();
+                                connection.Close();
+                            }
+                        }
+                    }
+                    DateTime outerDate = new DateTime(2019,1,1);
+                    try
+                    {
+                        outerDate = Convert.ToDateTime(cell[cell.Length - 3]);
+                    }
+                    catch
+                    {
+                        MessageBox.Show(cell.Length.ToString());
+                    }
+                    
+                    connection.Open();
+                    SqlCommand cmdInsertVn = new SqlCommand("INSERT INTO Vn (vn, quantity, date) Values ('" + cell[cell.Length-2] + "' , '" + cell[cell.Length-1] + "' , '"+ outerDate.ToString("yyyy-MM-dd") + "')",connection);
+                    cmdInsertVn.ExecuteNonQuery();
+                    connection.Close();
+                }else if(email.Subject == "Add")
+                {
+
+                }else if(email.Subject == "Ciro")
+                {
+
+                }
+                //MessageBox.Show(string.Format("{0}", email.Subject));
             }
+            
         }
     }
 }

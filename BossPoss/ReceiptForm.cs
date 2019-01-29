@@ -19,7 +19,7 @@ namespace BossPoss
             InitializeComponent();
         }
         int i = 0;  //Using to enter a data to grid
-        SqlConnection connection = new SqlConnection("Data Source=.;Initial Catalog=BossPoss;Integrated Security=True");
+        SqlConnection connection = new SqlConnection("Data Source=LUNATOGI\\KETO;Initial Catalog=BossPoss;Integrated Security=True");
         private void ReceiptForm_Load(object sender, EventArgs e)
         {
             ListReceipts();
