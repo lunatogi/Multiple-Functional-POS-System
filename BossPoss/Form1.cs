@@ -10,15 +10,16 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.IO;
-using ActiveUp.Net.Mail;
+//using ActiveUp.Net.Mail;
 using BossPoss.IMAP;
+using System.Net.Mail;
 
 
 namespace BossPoss
 {
     public partial class FrmSelling : Form
     {
-        
+
         public FrmSelling()
         {
             InitializeComponent();
@@ -26,7 +27,7 @@ namespace BossPoss
         int i = 0;
 
         SqlConnection connection = new SqlConnection("Data Source=LUNATOGI\\KETO;Initial Catalog=BossPoss;Integrated Security=True");
-        int multiplyer = 1;                         
+        int multiplyer = 1;
         bool boolMultiplayer = false;
         bool boolDivide = false;
         double divideVisa = 0;
@@ -90,7 +91,7 @@ namespace BossPoss
         {
             KeyButtons(9);
         }
-        
+
         private void btnKey0_Click(object sender, EventArgs e)
         {
             KeyButtons(0);
@@ -102,7 +103,8 @@ namespace BossPoss
             {
                 converter += number.ToString();
                 lblMultiplayer.Text = converter;
-            }else if (fire)
+            }
+            else if (fire)
             {
                 txtboxFire.Text += number.ToString();
             }
@@ -151,8 +153,8 @@ namespace BossPoss
             SqlDataReader reader = cmdTakingData.ExecuteReader();
             int executedItemCount = 0;
             int leftItemCount = 0;
-            
-            while (reader.Read())       
+
+            while (reader.Read())
             {
                 if (barcode == reader["barcode"].ToString())
                 {
@@ -165,7 +167,7 @@ namespace BossPoss
                     mainGridView.Rows[i].Cells[1].Value = (multiplyer).ToString();
                     executedItemCount = 1 * multiplyer;
                     leftItemCount = (Convert.ToInt32(reader["piece"])) - executedItemCount;
-                    mainGridView.Rows[i].Cells[2].Value = (executedItemCount * Convert.ToDouble(reader["price"])).ToString() +" TL";
+                    mainGridView.Rows[i].Cells[2].Value = (executedItemCount * Convert.ToDouble(reader["price"])).ToString() + " TL";
                     mainGridView.Rows[i].Cells[3].Value = (executedItemCount * Convert.ToDouble(reader["price"])).ToString();
                     mainGridView.Rows[i].Cells[4].Value = barcode;
                 }
@@ -182,22 +184,26 @@ namespace BossPoss
             sum += Convert.ToDouble(mainGridView.Rows[mainGridView.RowCount - 1].Cells[3].Value);
             lblSum.Text = "Toplam: " + sum.ToString() + " TL";
         }
-        
+
         private void AddToLog(string vn, bool divided)     //After pressing "buy" data will be stored at the database
         {
             connection.Open();
+            string mailMesaj = "";
             string itemName = "";
             double sumPrice = 0;
+            double sumForEndPrice = 0;
             int piece = 0;
             int oldPiece = 0;
             int newPiece = 0;
             string barcode = "";
             string vnForLog = "";
+            double leftDivide = 0;
             for (int t = 0; t < mainGridView.RowCount; t++)
             {
+                sumForEndPrice += Convert.ToDouble(mainGridView.Rows[t].Cells[3].Value);
                 barcode = mainGridView.Rows[t].Cells[4].Value.ToString();
                 itemName = mainGridView.Rows[t].Cells[0].Value.ToString();
-                if (!fire)
+                if (!fire)          //fire, promosyon demek
                 {
                     sumPrice = Convert.ToDouble(mainGridView.Rows[t].Cells[3].Value);
                     piece = Convert.ToInt32(mainGridView.Rows[t].Cells[1].Value);       //Because date-time insertation is different in the foreign countries we need to change month and day's places with the code below
@@ -206,50 +212,29 @@ namespace BossPoss
                         vnForLog = vn;
                     else
                         vnForLog = "Visa-Nakit";
-                    SqlCommand cmdInsert = new SqlCommand("INSERT INTO Log (item, sumPrice, piece, date, receipt, vn) Values ('" + itemName + "' , '" + sumPrice.ToString() + "' , '" + piece.ToString() + "' , '" + currenDateTime.ToString("yyyy-MM-dd") + "' , '" + receiptNo.ToString() + "' , '" + vnForLog + "')", connection);
+                    MessageBox.Show(mailMesaj);
+                    SqlCommand cmdInsert = new SqlCommand("INSERT INTO Log (item, sumPrice, piece, date, receipt, vn) Values ('" + itemName + "' , '" + sumPrice.ToString() + "' , '" + piece.ToString() + "' , '" + currenDateTime.ToString("yyyy-MM-dd") + "' , '1" + receiptNo.ToString() + "' , '" + vnForLog + "')", connection);
                     cmdInsert.ExecuteNonQuery();
                     //connection.Close();
                     //connection.Open();
-                    if (!boolDivide)
-                    {
-                        SqlCommand cmdVnInsert = new SqlCommand("INSERT INTO Vn (vn, quantity, date) Values ('" + vn.ToString() + "', '" + sumPrice.ToString() + "' , '" + DateTime.Today.ToString("yyyy-MM-dd") + "')", connection);
-                        cmdVnInsert.ExecuteNonQuery();
-                    }
-                    else if (boolDivide)
-                    {
-                        double leftDivide = 0;
-                        divideVisa = Convert.ToDouble(txtboxDivideVisa.Text);
-                        leftDivide = sumPrice - divideVisa;
-                        MessageBox.Show(divideVisa.ToString());
-                        SqlCommand cmdVnInsert = new SqlCommand("INSERT INTO Vn (vn, quantity, date) Values ('" + vn.ToString() + "', '" + divideVisa.ToString() + "' , '" + DateTime.Today.ToString("yyyy-MM-dd") + "')", connection);
-                        cmdVnInsert.ExecuteNonQuery();
-                        connection.Close();
-                        connection.Open();
-                        MessageBox.Show(leftDivide.ToString());
-                        SqlCommand cmdVnInsert2 = new SqlCommand("INSERT INTO Vn (vn, quantity, date) Values ('" + "Nakit" + "', '" + leftDivide.ToString() + "' , '" + DateTime.Today.ToString("yyyy-MM-dd") + "')", connection);
-                        cmdVnInsert2.ExecuteNonQuery();
-                        txtboxDivideVisa.Text = "";
-                        txtboxDivideVisa.Visible = false;
-                        lblDivideVisa.Visible = false;
-                        btnDivideEnd.Visible = false;
-                        boolDivide = false;
-                    }
+                    mailMesaj += barcode.ToString() + "+" + itemName + "+" + piece + "+" + sumPrice + "+" + receiptNo + "+" + vnForLog + "+" + currenDateTime.ToString("yyyy-MM-dd") + "*";
                 }
                 else
                 {
-                    try { 
+                    try
+                    {
                         sumPrice = Convert.ToDouble(txtboxFire.Text);
                     }
                     catch
                     {
                         sumPrice = 0;
                     }
-                    piece = Convert.ToInt32(mainGridView.Rows[t].Cells[1].Value);       //Because date-time insertation is different in the foreign countries we need to change month and day's places with the code below
+                    vnForLog = vn;
+                    piece = Convert.ToInt32(mainGridView.Rows[t].Cells[1].Value);       
                     DateTime currenDateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-                    SqlCommand cmdInsert = new SqlCommand("INSERT INTO Log (item, sumPrice, piece, date, receipt) Values ('" + itemName + "' , '" + "*" + sumPrice.ToString() + "' , '" + piece.ToString() + "' , '" + currenDateTime.ToString("yyyy-MM-dd") + "' , '" + receiptNo.ToString() + "')", connection);
+                    mailMesaj += barcode.ToString() + "+" + itemName + "+" + piece + "+/" + sumPrice + "+" + receiptNo + "+" + vnForLog + "+" + currenDateTime.ToString("yyyy-MM-dd") + "*";
+                    SqlCommand cmdInsert = new SqlCommand("INSERT INTO Log (item, sumPrice, piece, date, receipt) Values ('" + itemName + "' , '" + "/" + sumPrice.ToString() + "' , '" + piece.ToString() + "' , '" + currenDateTime.ToString("yyyy-MM-dd") + "' , '" + receiptNo.ToString() + "')", connection);
                     cmdInsert.ExecuteNonQuery();
-                    SqlCommand cmdVnInsert = new SqlCommand("INSERT INTO Vn (vn, quantity, date) Values ('" + vn.ToString() + "', '" + sumPrice.ToString() + "' , '" + DateTime.Today.ToString("yyyy-MM-dd") + "')", connection);
-                    cmdVnInsert.ExecuteNonQuery();
                 }
                 connection.Close();
                 connection.Open();
@@ -267,6 +252,48 @@ namespace BossPoss
                 SqlCommand cmdMinuesPiece = new SqlCommand("Update Depo set piece='" + newPiece.ToString() + "' where barcode= " + Convert.ToUInt64(barcode) + "", connection);
                 cmdMinuesPiece.ExecuteNonQuery();
             }
+            if (!boolDivide)
+            {
+                SqlCommand cmdVnInsert = new SqlCommand("INSERT INTO Vn (vn, quantity, date) Values ('" + vn.ToString() + "', '" + sumPrice.ToString() + "' , '" + DateTime.Today.ToString("yyyy-MM-dd") + "')", connection);
+                cmdVnInsert.ExecuteNonQuery();
+                mailMesaj += DateTime.Today.ToString() + "*" + vnForLog + "*" + sumPrice.ToString();
+                //sendEmail("işlem",mailMesaj);
+            }
+            else if (boolDivide)
+            {
+                leftDivide = 0;
+                try
+                {
+                    divideVisa = Convert.ToDouble(txtboxDivideVisa.Text);
+                }
+                catch
+                {
+                    MessageBox.Show("Lütfen para miktarını doğru girin.", "Hata!");
+                    return;
+                }
+                leftDivide = sumForEndPrice - divideVisa;
+                MessageBox.Show(divideVisa.ToString());
+                SqlCommand cmdVnInsert = new SqlCommand("INSERT INTO Vn (vn, quantity, date) Values ('" + vn.ToString() + "', '" + divideVisa.ToString() + "' , '" + DateTime.Today.ToString("yyyy-MM-dd") + "')", connection);
+                cmdVnInsert.ExecuteNonQuery();
+                connection.Close();
+                connection.Open();
+                MessageBox.Show(leftDivide.ToString());
+                SqlCommand cmdVnInsert2 = new SqlCommand("INSERT INTO Vn (vn, quantity, date) Values ('" + "Nakit" + "', '" + leftDivide.ToString() + "' , '" + DateTime.Today.ToString("yyyy-MM-dd") + "')", connection);
+                cmdVnInsert2.ExecuteNonQuery();
+                txtboxDivideVisa.Text = "";
+                txtboxDivideVisa.Visible = false;
+                lblDivideVisa.Visible = false;
+                btnDivideEnd.Visible = false;
+                mailMesaj += "Visa*" + divideVisa.ToString() + "*Nakit*" + leftDivide.ToString() + "*" + DateTime.Today.ToString();
+                sendEmail("işlemDivide", mailMesaj);
+                boolDivide = false;
+            }
+            if (fire)
+            {
+                SqlCommand cmdVnInsertFire = new SqlCommand("INSERT INTO Vn (vn, quantity, date) Values ('" + vn.ToString() + "', '" + sumForEndPrice.ToString() + "' , '" + DateTime.Today.ToString("yyyy-MM-dd") + "')", connection);
+                cmdVnInsertFire.ExecuteNonQuery();
+            }
+            MessageBox.Show(mailMesaj);
             connection.Close();
             MessageBox.Show(boolDivide.ToString());
         }
@@ -279,16 +306,17 @@ namespace BossPoss
                 {
                     converter = converter.Remove(converter.Length - 1);
                     lblMultiplayer.Text = converter;
-                }else if (fire)
+                }
+                else if (fire)
                 {
                     txtboxFire.Text = txtboxFire.Text.Remove(txtboxFire.Text.Length - 1);
                 }
-                else 
+                else
                 {
                     txtboxBarcode.Text = txtboxBarcode.Text.Remove(txtboxBarcode.Text.Length - 1);
                 }
             }
-            catch {  }
+            catch { }
         }
 
         private void txtboxBarcode_Click(object sender, EventArgs e)
@@ -306,7 +334,7 @@ namespace BossPoss
                 Console.Write("girdi");
                 DateTime lol = new DateTime();
                 lol = Convert.ToDateTime(reader["date"]);
-                MessageBox.Show(lol.Day.ToString(),DateTime.Now.Day.ToString());
+                MessageBox.Show(lol.Day.ToString(), DateTime.Now.Day.ToString());
                 /*if (lol.Day == DateTime.Now.Day)
                 {
                     MessageBox.Show("loool", "lol");
@@ -317,6 +345,7 @@ namespace BossPoss
 
         private void btnStorage_Click(object sender, EventArgs e)
         {
+            ReadImap();
             StorageForm stForm = new StorageForm();
             stForm.Show();
         }
@@ -380,7 +409,7 @@ namespace BossPoss
                 int difference = Convert.ToInt32(timeDifference.Days);
                 if (difference <= 365)
                 {
-                   expiredItemCount++;
+                    expiredItemCount++;
                 }
             }
             connection.Close();
@@ -435,7 +464,10 @@ namespace BossPoss
             {
                 try
                 {
-                    receiptNoFromLog = Convert.ToInt32(reader["receipt"]) + 1;
+                    string receiptString = reader["receipt"].ToString();
+                    receiptString = receiptString.Remove(0, 1);
+                    receiptNoFromLog = Convert.ToInt32(receiptString);
+                    receiptNoFromLog += 1;
                     if (receiptNoFromLog > receiptNo)
                         receiptNo = receiptNoFromLog;
                 }
@@ -489,7 +521,7 @@ namespace BossPoss
             lblSum.Text = "Toplam: 0.00";
             sum = 0;
             connection.Close();
-            
+
         }
 
         private void btnWaitingReceipts_Click(object sender, EventArgs e)
@@ -518,7 +550,7 @@ namespace BossPoss
             }
             connection.Close();
             double recoverSum = 0;
-            for(int l = 0; l < mainGridView.RowCount; l++)
+            for (int l = 0; l < mainGridView.RowCount; l++)
             {
                 recoverSum += Convert.ToDouble(mainGridView.Rows[l].Cells[3].Value);
             }
@@ -538,6 +570,7 @@ namespace BossPoss
 
         private void btnCiro_Click(object sender, EventArgs e)
         {
+            ReadImap();
             Daily_Ciro();
             Monthly_Ciro();
             Yearly_Ciro();
@@ -628,11 +661,12 @@ namespace BossPoss
             while (reader.Read())
             {
                 DateTime databaseDate = Convert.ToDateTime(reader["date"]);
-                if(databaseDate.Year == DateTime.Today.Year && databaseDate.Month == DateTime.Today.Month && reader["type"].ToString() == "d")
+                if (databaseDate.Year == DateTime.Today.Year && databaseDate.Month == DateTime.Today.Month && reader["type"].ToString() == "d")
                 {
                     ciroMonth1[0] += Convert.ToDouble(reader["visa"]);
                     ciroMonth1[1] += Convert.ToDouble(reader["nakit"]);
-                }else if(databaseDate.Year == lastMonth.Year && databaseDate.Month == lastMonth.Month && reader["type"].ToString() == "d")
+                }
+                else if (databaseDate.Year == lastMonth.Year && databaseDate.Month == lastMonth.Month && reader["type"].ToString() == "d")
                 {
                     ciroMonth2[0] += Convert.ToDouble(reader["visa"]);
                     ciroMonth2[1] += Convert.ToDouble(reader["nakit"]);
@@ -711,21 +745,21 @@ namespace BossPoss
             ReadImap();
         }
 
-        
+
         public void ReadImap()
         {
-            
-            MailRepository rep = new MailRepository("imap.gmail.com", 993, true, @"ozu.midnightexpress1@gmail.com", "ozyegin2019midnight");
+
+            MailRepository rep = new MailRepository("imap.gmail.com", 993, true, @"ozu.midnightexpress2@gmail.com", "ozyegin2019midnight");
             foreach (var email in rep.GetUnreadMails("Inbox"))
             {
-                if(email.Subject == "işlem")
+                if (email.Subject == "işlem")
                 {
                     string mesaj = email.BodyText.Text;
                     //string mesaj = "2648599375938+okey+2+60+10+Nakit+2019-12-15 00:00:00.0000000*4739363848686+negro+1+2+10+Nakit+2019-12-15 00:00:00.0000000*2019-12-15 00:00:00.0000000*Nakit*62";
                     MessageBox.Show(mesaj);
                     string[] cell = mesaj.Split('*');               //bu arrayin sonunda tarih, vn ve sumPrice var
                     MessageBox.Show(cell[0]);
-                    foreach(string cel in cell)
+                    foreach (string cel in cell)
                     {
                         int oldData = 0;
                         int newData = 0;
@@ -762,7 +796,7 @@ namespace BossPoss
                             }
                         }
                     }
-                    DateTime outerDate = new DateTime(2019,1,1);
+                    DateTime outerDate = new DateTime(2019, 1, 1);
                     try
                     {
                         outerDate = Convert.ToDateTime(cell[cell.Length - 3]);
@@ -771,21 +805,166 @@ namespace BossPoss
                     {
                         MessageBox.Show(cell.Length.ToString());
                     }
-                    
+
                     connection.Open();
-                    SqlCommand cmdInsertVn = new SqlCommand("INSERT INTO Vn (vn, quantity, date) Values ('" + cell[cell.Length-2] + "' , '" + cell[cell.Length-1] + "' , '"+ outerDate.ToString("yyyy-MM-dd") + "')",connection);
+                    SqlCommand cmdInsertVn = new SqlCommand("INSERT INTO Vn (vn, quantity, date) Values ('" + cell[cell.Length - 2] + "' , '" + cell[cell.Length - 1] + "' , '" + outerDate.ToString("yyyy-MM-dd") + "')", connection);
                     cmdInsertVn.ExecuteNonQuery();
                     connection.Close();
-                }else if(email.Subject == "Add")
+                }
+                else if (email.Subject == "Add")
                 {
-
-                }else if(email.Subject == "Ciro")
-                {
+                    string mesaj = email.BodyText.Text;         //name + price + piece + barcode + skt
+                    string[] cell = mesaj.Split('+');
+                    MessageBox.Show(cell[0] + " " + cell[1] + " " + cell[2] + " " + cell[3] + " " + cell[4]);
+                    if (cell[4].Length > 1)
+                    {
+                        cell[4] = null;
+                        connection.Open();
+                        SqlCommand cmdAddItem = new SqlCommand("INSERT INTO Depo (name, price, piece, barcode) Values ('" + cell[0] + "' , '" + cell[1] + "' , '" + cell[2] + "' , '" + Convert.ToUInt64(cell[3]) + "')", connection);
+                        cmdAddItem.ExecuteNonQuery();
+                        connection.Close();
+                    }
+                    else
+                    {
+                        DateTime dt = Convert.ToDateTime(cell[4]);
+                        connection.Open();
+                        SqlCommand cmdAddItem = new SqlCommand("INSERT INTO Depo (name, price, piece, barcode, skt) Values ('" + cell[0] + "' , '" + cell[1] + "' , '" + cell[2] + "' , '" + Convert.ToUInt64(cell[3]) + "' , '" + dt.ToString("yyyy-MM-dd") + "')", connection);
+                        cmdAddItem.ExecuteNonQuery();
+                        connection.Close();
+                    }
 
                 }
-                //MessageBox.Show(string.Format("{0}", email.Subject));
+                else if (email.Subject == "UpdatePiece")
+                {
+                    MessageBox.Show("updatepiece");
+                    string mesaj = email.BodyText.Text;         //barcode+piece
+                    string[] cell = mesaj.Split('+');
+                    int oldPiece = 0;
+                    int newPiece = 0;
+                    connection.Open();
+                    SqlCommand cmdTakeOldData = new SqlCommand("Select *from Depo", connection);
+                    SqlDataReader reader = cmdTakeOldData.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        if (reader["barcode"].ToString() == cell[0])
+                            oldPiece = Convert.ToInt32(reader["piece"]);
+                    }
+                    int fromText = Convert.ToInt32(cell[1]);
+                    newPiece = oldPiece + fromText;
+                    MessageBox.Show(newPiece + " " + oldPiece + " " + fromText);
+                    connection.Close();
+                    connection.Open();
+                    SqlCommand cmdUpdateDatabase = new SqlCommand("Update Depo set piece = '" + newPiece.ToString() + "' where barcode = " + cell[0] + "", connection);
+                    cmdUpdateDatabase.ExecuteNonQuery();
+                    connection.Close();
+                }
+                else if (email.Subject == "UpdatePrice")
+                {
+                    string mesaj = email.BodyText.Text;         //barcode+price
+                    string[] cell = mesaj.Split('+');
+                    connection.Open();
+                    SqlCommand cmdUpdateDatabase = new SqlCommand("Update Depo set price = '" + cell[1] + "' where barcode = " + cell[0] + "", connection);
+                    cmdUpdateDatabase.ExecuteNonQuery();
+                    connection.Close();
+                }
+                else if (email.Subject == "UpdateSkt")
+                {
+                    string mesaj = email.BodyText.Text;         //barcode+skt
+                    string[] cell = mesaj.Split('+');
+                    DateTime dt = Convert.ToDateTime(cell[1]);
+                    connection.Open();
+                    SqlCommand cmdUpdateDatabase = new SqlCommand("Update Depo set skt = '" + dt.ToString("yyyy-MM-dd") + "' where barcode = " + cell[0] + "", connection);
+                    cmdUpdateDatabase.ExecuteNonQuery();
+                    connection.Close();
+                }
+                else if (email.Subject == "işlemDivide")
+                {
+                    string mesaj = email.BodyText.Text;
+                    //string mesaj = "2648599375938+okey+2+60+10+Nakit+2019-12-15 00:00:00.0000000*4739363848686+negro+1+2+10+Nakit+2019-12-15 00:00:00.0000000*2019-12-15 00:00:00.0000000*Nakit*62";
+                    MessageBox.Show(mesaj);
+                    string[] cell = mesaj.Split('*');               //bu arrayin sonunda vnForLog, dividedPrice1, vnForLog2, dividedPrice2 ve tarih var
+                    MessageBox.Show(cell[0]);
+                    foreach (string cel in cell)
+                    {
+                        int oldData = 0;
+                        int newData = 0;
+                        string[] toDataBase = cel.Split('+');       //barcode-isim-adet-price-receipt-vn-tarih
+                        if (toDataBase.Length > 1)
+                        {
+                            MessageBox.Show(toDataBase[0] + " " + toDataBase[1] + " " + toDataBase[2]);
+                            if (toDataBase.Length > 2)
+                            {
+
+                                connection.Open();
+                                SqlCommand cmdTakeOldData = new SqlCommand("Select *from Depo", connection);
+                                SqlDataReader reader = cmdTakeOldData.ExecuteReader();
+                                while (reader.Read())
+                                {
+                                    if (reader["barcode"].ToString() == toDataBase[0])
+                                    {
+                                        oldData = Convert.ToInt32(reader["piece"]);
+                                    }
+                                }
+                                MessageBox.Show(toDataBase[2]);
+                                connection.Close();
+                                newData = oldData - Convert.ToInt32(toDataBase[2]);
+                                MessageBox.Show("son element : " + toDataBase[0]);
+                                connection.Open();
+                                SqlCommand cmdPutNewData = new SqlCommand("Update Depo set piece = '" + newData.ToString() + "' where barcode = " + toDataBase[0].ToString() + "", connection);
+                                cmdPutNewData.ExecuteNonQuery();
+                                connection.Close();
+                                DateTime innerDate = Convert.ToDateTime(toDataBase[6]);
+                                connection.Open();
+                                SqlCommand cmdInsertLog = new SqlCommand("INSERT INTO Log (item, sumPrice, piece, date, receipt, vn) Values ('" + toDataBase[1].ToLower() + "' , '" + toDataBase[3].ToLower() + "' , '" + toDataBase[2].ToLower() + "' , '" + innerDate.ToString("yyyy-MM-dd") + "' , '" + toDataBase[4].ToString() + "' , '" + toDataBase[5].ToString() + "')", connection);
+                                cmdInsertLog.ExecuteNonQuery();
+                                connection.Close();
+                            }
+                        }
+                    }
+
+                    DateTime outerDate = new DateTime(2019, 1, 1);
+                    try
+                    {
+                        outerDate = Convert.ToDateTime(cell[cell.Length - 1]);
+                    }
+                    catch
+                    {
+                        MessageBox.Show(cell.Length.ToString());
+                    }
+
+                    connection.Open();
+                    SqlCommand cmdInsertVn = new SqlCommand("INSERT INTO Vn (vn, quantity, date) Values ('" + cell[cell.Length - 5] + "' , '" + cell[cell.Length - 4] + "' , '" + outerDate.ToString("yyyy-MM-dd") + "')", connection);
+                    cmdInsertVn.ExecuteNonQuery();              //VISA
+                    connection.Close();
+                    connection.Open();
+                    SqlCommand cmdInsertVn2 = new SqlCommand("INSERT INTO Vn (vn, quantity, date) Values ('" + cell[cell.Length - 3] + "' , '" + cell[cell.Length - 2] + "' , '" + outerDate.ToString("yyyy-MM-dd") + "')", connection);
+                    cmdInsertVn2.ExecuteNonQuery();             //NAKIT
+                    connection.Close();
+                }
             }
-            
+        }
+
+        private void sendEmail(string subject, string message)
+        {
+
+            SmtpClient client = new SmtpClient();
+            client.Port = 587;
+            client.Host = "smtp.gmail.com";
+            client.EnableSsl = true;
+            client.Timeout = 10000;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;                   
+            client.Credentials = new System.Net.NetworkCredential("ozu.midnightexpress1@gmail.com", "ozyegin2019midnight");
+
+            MailMessage mm = new MailMessage("ozu.midnightexpress1@gmail.com", "ozu.midnightexpress2@gmail.com", subject, message);
+            mm.BodyEncoding = UTF8Encoding.UTF8;
+            mm.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+            client.Send(mm);
+
+            MailMessage mm2 = new MailMessage("ozu.midnightexpress1@gmail.com", "ozu.midnightexpress3@gmail.com", subject, message);
+            mm2.BodyEncoding = UTF8Encoding.UTF8;
+            mm2.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+            client.Send(mm2);
         }
     }
 }

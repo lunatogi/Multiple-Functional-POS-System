@@ -27,7 +27,7 @@ namespace BossPoss
 
         private void btnPassword_Click(object sender, EventArgs e)
         {
-            if (txtboxReceiptNote.Text != "özyeğins2019midnight")
+            if (txtboxReceiptNote.Text != "özyeğin2019midnight")
             {
                 MessageBox.Show("Şifre yanlış!", "Uyarı!");
                 return;
@@ -191,14 +191,18 @@ namespace BossPoss
             client.EnableSsl = true;
             client.Timeout = 10000;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.UseDefaultCredentials = false;                   //bmyusarjaamzwsvk
+            client.UseDefaultCredentials = false;                   
             client.Credentials = new System.Net.NetworkCredential("ozu.midnightexpress1@gmail.com", "ozyegin2019midnight");
 
             MailMessage mm = new MailMessage("ozu.midnightexpress1@gmail.com", "ozu.midnightexpress3@gmail.com", "Midnight Express Ciro", message);
             mm.BodyEncoding = UTF8Encoding.UTF8;
             mm.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
-
             client.Send(mm);
+
+            MailMessage mm2 = new MailMessage("ozu.midnightexpress1@gmail.com", "veyluna@outlook.com", "Midnight Express Ciro", message);
+            mm2.BodyEncoding = UTF8Encoding.UTF8;
+            mm2.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+            client.Send(mm2);
         }
     }
 }

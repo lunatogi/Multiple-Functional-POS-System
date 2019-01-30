@@ -29,14 +29,27 @@ namespace BossPoss
             connection.Open();
             SqlCommand cmdTakingData = new SqlCommand("Select *from Depo", connection);
             SqlDataReader reader = cmdTakingData.ExecuteReader();
+                
             while (reader.Read())
             {
-                i = storageGridView.Rows.Add();
-                storageGridView.Rows[i].Cells[0].Value = reader["barcode"].ToString();
-                storageGridView.Rows[i].Cells[1].Value = reader["name"].ToString();
-                storageGridView.Rows[i].Cells[2].Value = reader["piece"].ToString();
-                storageGridView.Rows[i].Cells[3].Value = reader["price"].ToString();
-                storageGridView.Rows[i].Cells[4].Value = reader["skt"].ToString();
+                try
+                {
+                    DateTime dt = Convert.ToDateTime(reader["skt"]);
+                    i = storageGridView.Rows.Add();
+                    storageGridView.Rows[i].Cells[0].Value = reader["barcode"].ToString();
+                    storageGridView.Rows[i].Cells[1].Value = reader["name"].ToString();
+                    storageGridView.Rows[i].Cells[2].Value = reader["piece"].ToString();
+                    storageGridView.Rows[i].Cells[3].Value = reader["price"].ToString();
+                    storageGridView.Rows[i].Cells[4].Value = dt.ToString("yyyy-MM-dd");
+                }
+                catch
+                {
+                    i = storageGridView.Rows.Add();
+                    storageGridView.Rows[i].Cells[0].Value = reader["barcode"].ToString();
+                    storageGridView.Rows[i].Cells[1].Value = reader["name"].ToString();
+                    storageGridView.Rows[i].Cells[2].Value = reader["piece"].ToString();
+                    storageGridView.Rows[i].Cells[3].Value = reader["price"].ToString();
+                }
             }
             connection.Close();
         }
@@ -105,11 +118,17 @@ namespace BossPoss
                 {
                     Update_Price();
                 }
+                txtboxBarcode.Text = "";
+                txtboxName.Text = "";
+                txtboxPiece.Text = "";
+                txtboxPrice.Text = "";
+                txtboxSkt.Text = "";
             }
             catch
             {
                 MessageBox.Show("Depoda böyle bir ürün bulunmamakta veya sayı girilmesi gereken yere yazı girdiniz.", "Hata");
             }
+            
         }
 
         private void Update_Piece()
@@ -122,7 +141,8 @@ namespace BossPoss
             SqlDataReader reader = cmdTakeOldData.ExecuteReader();
             while (reader.Read())
             {
-                oldPiece = Convert.ToInt32(reader["piece"]);
+                if(reader["barcode"].ToString() == txtboxBarcode.Text)
+                    oldPiece = Convert.ToInt32(reader["piece"]);
             }
             int fromText = Convert.ToInt32(txtboxPiece.Text);
             newPiece = oldPiece + fromText;
