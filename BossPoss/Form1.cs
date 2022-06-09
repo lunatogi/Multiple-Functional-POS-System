@@ -142,11 +142,28 @@ namespace BossPoss
 
         private void Scanned(string comingBarcode)  //happens when barcode is read
         {
+            bool barcodeExist = false;
             string barcode = "";
             if (comingBarcode == null)
                 barcode = txtboxBarcode.Text;
             else
                 barcode = comingBarcode;
+            connection.Open();                                                  //Checks if an item with that barcode exists
+            SqlCommand cmdBarcodeChecker = new SqlCommand("Select *from Depo", connection);
+            SqlDataReader reader2 = cmdBarcodeChecker.ExecuteReader();
+            while (reader2.Read())
+            {
+                if (reader2["barcode"].ToString() == barcode)
+                {
+                    barcodeExist = true;
+                }
+            }
+            connection.Close();
+            if (!barcodeExist)
+            {
+                MessageBox.Show("Bu barkodlu bir ürün bulunmamakta", "Uyarı!");
+                return;
+            }
             connection.Open();
             SqlCommand cmdTakingData = new SqlCommand("Select *from Depo", connection);
 
@@ -187,6 +204,7 @@ namespace BossPoss
 
         private void AddToLog(string vn, bool divided)     //After pressing "buy" data will be stored at the database
         {
+
             connection.Open();
             string mailMesaj = "";
             string itemName = "";
@@ -815,10 +833,9 @@ namespace BossPoss
                 {
                     string mesaj = email.BodyText.Text;         //name + price + piece + barcode + skt
                     string[] cell = mesaj.Split('+');
-                    MessageBox.Show(cell[0] + " " + cell[1] + " " + cell[2] + " " + cell[3] + " " + cell[4]);
-                    if (cell[4].Length > 1)
+                    //MessageBox.Show(cell[0] + " " + cell[1] + " " + cell[2] + " " + cell[3] + " " + cell[4]);
+                    if (cell.Length < 5)
                     {
-                        cell[4] = null;
                         connection.Open();
                         SqlCommand cmdAddItem = new SqlCommand("INSERT INTO Depo (name, price, piece, barcode) Values ('" + cell[0] + "' , '" + cell[1] + "' , '" + cell[2] + "' , '" + Convert.ToUInt64(cell[3]) + "')", connection);
                         cmdAddItem.ExecuteNonQuery();
@@ -946,7 +963,6 @@ namespace BossPoss
 
         private void sendEmail(string subject, string message)
         {
-
             SmtpClient client = new SmtpClient();
             client.Port = 587;
             client.Host = "smtp.gmail.com";
@@ -965,6 +981,11 @@ namespace BossPoss
             mm2.BodyEncoding = UTF8Encoding.UTF8;
             mm2.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
             client.Send(mm2);
+        }
+
+        private void txtboxBarcode_TextChanged(object sender, EventArgs e)
+        {
+            //if(txtboxBarcode.Focused &&  )
         }
     }
 }
